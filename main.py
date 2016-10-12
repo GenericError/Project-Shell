@@ -4,6 +4,7 @@ try:
     import pwd
     import datetime
     import platform
+    import ls
 except ImportError:
     print("Sorry, Project Shell can not run without this/these module/s!")
     exit()
@@ -17,24 +18,29 @@ if ".local" in current_hostname:
     current_hostname = current_hostname.split(".local")[0]
 
 
-def exit_shell():
+def exit_command():
     print("Exiting...")
     sys.exit()
 
 
-def clear():
+def clear_command():
     print(chr(27) + "[2J")
 
 
+def ls_command():
+    ls.run_command()
+
 command_dict = {
-    'exit': exit_shell,
-    'clear': clear,
+    'exit': exit_command,
+    'clear': clear_command,
+    'ls': ls_command,
 }
 
 print("Welcome to Project Shell!")
 print("Current time is: "+str(datetime.datetime.now()))
 print("Current user is "+current_user)
 print("Current host is "+current_hostname)
+print("Current dir is "+os.getcwd())
 
 while 1:
     run_command_this_loop = False
