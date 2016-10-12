@@ -1,8 +1,12 @@
 import os
 import shutil
 
-def run_command():
-    current_dir = os.getcwd()
+def run_command(arguments={}):
+    try:
+        current_dir = arguments['cwd']
+    except:
+        print("Sorry, an error occured.")
+        return
     file_dir_list = os.listdir(current_dir)
     terminal_width = shutil.get_terminal_size()[0]
     longest_name = 0
