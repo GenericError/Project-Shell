@@ -54,6 +54,7 @@ args_dict = {
     'clear': [],
     'ls': ['cwd'],
     'cd': ['cwd', 'extra_input'],
+    'mkdir': ['cwd', 'extra_input'],
 }
 
 print("Welcome to Project Shell!")
