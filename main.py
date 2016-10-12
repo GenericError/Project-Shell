@@ -5,8 +5,9 @@ try:
     import datetime
     import platform
     import ls
+    import cd
 except ImportError:
-    print("Sorry, Project Shell can not run without this/these module/s!")
+    print("Sorry, Project Shell can not run without the required modules!")
     exit()
 
 NEWLINE = "\n"
@@ -18,22 +19,35 @@ if ".local" in current_hostname:
     current_hostname = current_hostname.split(".local")[0]
 
 
-def exit_command():
+def exit_command(arguments={}):
     print("Exiting...")
     sys.exit()
 
 
-def clear_command():
+def clear_command(arguments={}):
     print(chr(27) + "[2J")
 
 
-def ls_command():
-    ls.run_command()
+def ls_command(arguments={}):
+    ls.run_command(arguments)
+
+
+def cd_command(arguments={}):
+    cd.run_command(arguments)
+
 
 command_dict = {
     'exit': exit_command,
     'clear': clear_command,
     'ls': ls_command,
+    'cd': cd_command,
+}
+
+args_dict = {
+    'exit': [],
+    'clear': [],
+    'ls': ['cwd'],
+    'cd': ['cwd'],
 }
 
 print("Welcome to Project Shell!")
@@ -53,7 +67,12 @@ while 1:
     command_input = str(input(preceding_text))
     for command in command_dict.keys():
         if command == command_input:
-            command_dict[command]()
+            arguments = {}
+            for argumnet in args_dict:
+                for i in args_dict[command]:
+                    if i == 'cwd':
+                        arguments['cwd'] = os.getcwd()
+            command_dict[command](arguments)
             run_command_this_loop = True
         else:
             continue
