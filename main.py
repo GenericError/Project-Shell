@@ -48,7 +48,7 @@ while 1:
     preceding_text += current_user
     preceding_text += "@"
     preceding_text += current_hostname
-    preceding_text += os.curdir[:-1]
+    preceding_text += " "+str(os.getcwd()).split("/")[-1]
     preceding_text += "$ "
     command_input = str(input(preceding_text))
     for command in command_dict.keys():
