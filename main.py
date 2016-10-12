@@ -47,7 +47,7 @@ args_dict = {
     'exit': [],
     'clear': [],
     'ls': ['cwd'],
-    'cd': ['cwd'],
+    'cd': ['cwd', 'extra_input'],
 }
 
 print("Welcome to Project Shell!")
@@ -65,13 +65,20 @@ while 1:
     preceding_text += " "+str(os.getcwd()).split("/")[-1]
     preceding_text += "$ "
     command_input = str(input(preceding_text))
+    just_command = command_input.split(' ')[0]
+    try:
+        after_command = command_input.split(' ')[1]
+    except IndexError:
+        after_command = ""
     for command in command_dict.keys():
-        if command == command_input:
+        if command == just_command:
             arguments = {}
             for argumnet in args_dict:
                 for i in args_dict[command]:
                     if i == 'cwd':
                         arguments['cwd'] = os.getcwd()
+                    elif i == 'extra_input':
+                        arguments['extra_input'] = after_command
             command_dict[command](arguments)
             run_command_this_loop = True
         else:
