@@ -5,7 +5,6 @@ try:
     import datetime
     import platform
     import ls
-    #import cd
 except ImportError:
     print("Sorry, Project Shell can not run without this/these module/s!")
     exit()
@@ -31,23 +30,10 @@ def clear_command():
 def ls_command():
     ls.run_command()
 
-
-def cd_command():
-    cd.run_command()
-
-
 command_dict = {
     'exit': exit_command,
     'clear': clear_command,
     'ls': ls_command,
-    'cd': cd_command,
-}
-
-args_dict = {
-    'exit': [],
-    'clear': [],
-    'ls': ['cwd'],
-    'cd': ['cwd'],
 }
 
 print("Welcome to Project Shell!")
@@ -67,11 +53,7 @@ while 1:
     command_input = str(input(preceding_text))
     for command in command_dict.keys():
         if command == command_input:
-            arguments = {}
-            for argumnet in args_dict:
-                if args_dict[command] == 'cwd':
-                    arguments['cwd'] = os.getcwd()
-            command_dict[command](arguments)
+            command_dict[command]()
             run_command_this_loop = True
         else:
             continue
