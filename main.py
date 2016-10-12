@@ -12,16 +12,19 @@ current_hostname = platform.node()
 if ".local" in current_hostname:
     current_hostname = current_hostname.split(".local")[0]
 
-def exit():
+
+def exit_shell():
     print("Exiting...")
     sys.exit()
+
 
 def clear():
     print(chr(27) + "[2J")
 
+
 command_dict = {
-    'exit':exit,
-    'clear':clear,
+    'exit': exit_shell,
+    'clear': clear,
 }
 
 print("Welcome to Project Shell!")
@@ -48,5 +51,5 @@ while 1:
         if command_input == "":
             continue
         else:
-            print("project-shell: command",command_input,"not found")
+            print("project-shell: command", command_input, "not found")
             continue
