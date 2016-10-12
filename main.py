@@ -1,8 +1,12 @@
-import os
-import pwd
-import platform
-import sys
-import datetime
+try:
+    import sys
+    import os
+    import pwd
+    import datetime
+    import platform
+except ImportError:
+    print("Sorry, Project Shell can not run without this/these module/s!")
+    exit()
 
 NEWLINE = "\n"
 
