@@ -26,9 +26,9 @@ def run_command(arguments={}):
         print("Error: the source argumnet is a directory!")
         return
     elif os.path.isfile(source):
-        if os.exists(destination):
+        if os.path.exists(destination):
             print("That operation is not currently supported by cp")
-        elif not os.exists(destination):
+        elif not os.path.exists(destination):
             try:
                 shutil.copy2(source, destination)
             except:
