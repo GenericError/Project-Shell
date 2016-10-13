@@ -98,8 +98,8 @@ while 1:
         else:
             continue
     if not run_command_this_loop:
-        if command_input == "":
+        if just_command == "":
             continue
         else:
-            print("project-shell: command", command_input, "not found")
+            print("project-shell: command", just_command, "not found")
             continue

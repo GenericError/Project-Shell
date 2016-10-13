@@ -22,6 +22,6 @@ def run_command(arguments={}):
     except OSError:
         print("The directory", extra_input, "is not empty.")
         return
-    except:
+    except Exception:
         print("Sorry, an error occured.")
         return
