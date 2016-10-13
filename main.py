@@ -7,6 +7,7 @@ try:
     import ls
     import cd
     import mkdir
+    import rmdir
 except ImportError:
     print("Sorry, Project Shell can not run without the required modules!")
     exit()
@@ -41,12 +42,17 @@ def mkdir_command(arguments={}):
     mkdir.run_command(arguments)
 
 
+def rmdir_command(arguments={}):
+    rmdir.run_command(arguments)
+
+
 command_dict = {
     'exit': exit_command,
     'clear': clear_command,
     'ls': ls_command,
     'cd': cd_command,
     'mkdir': mkdir_command,
+    'rmdir': rmdir_command
 }
 
 args_dict = {
@@ -55,6 +61,7 @@ args_dict = {
     'ls': ['cwd'],
     'cd': ['cwd', 'extra_input'],
     'mkdir': ['cwd', 'extra_input'],
+    'rmdir': ['cwd', 'extra_input'],
 }
 
 print("Welcome to Project Shell!")
@@ -91,8 +98,8 @@ while 1:
         else:
             continue
     if not run_command_this_loop:
-        if command_input == "":
+        if just_command == "":
             continue
         else:
-            print("project-shell: command", command_input, "not found")
+            print("project-shell: command", just_command, "not found")
             continue
