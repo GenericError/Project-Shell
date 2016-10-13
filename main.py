@@ -80,8 +80,8 @@ args_dict = {
     'cd': ['cwd', 'extra_input'],
     'mkdir': ['cwd', 'extra_input'],
     'rmdir': ['cwd', 'extra_input'],
-    'cp': ['cwd', 'more_input']
-    'rm': ['cwd', 'more_input']
+    'cp': ['cwd', 'more_input'],
+    'rm': ['cwd', 'more_input'],
 }
 
 print("Welcome to Project Shell!")
