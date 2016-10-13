@@ -8,6 +8,7 @@ try:
     import cd
     import mkdir
     import rmdir
+    import cp
 except ImportError:
     print("Sorry, Project Shell can not run without the required modules!")
     exit()
@@ -19,6 +20,12 @@ current_hostname = platform.node()
 
 if ".local" in current_hostname:
     current_hostname = current_hostname.split(".local")[0]
+
+
+def generate_more_input(command_input):
+    command_input_list = command_input.split(' ')
+    command_input_list.remove(command_input_list[0])
+    return command_input_list
 
 
 def exit_command(arguments={}):
@@ -46,13 +53,18 @@ def rmdir_command(arguments={}):
     rmdir.run_command(arguments)
 
 
+def cp_command(arguments={}):
+    cp.run_command(arguments)
+
+
 command_dict = {
     'exit': exit_command,
     'clear': clear_command,
     'ls': ls_command,
     'cd': cd_command,
     'mkdir': mkdir_command,
-    'rmdir': rmdir_command
+    'rmdir': rmdir_command,
+    'cp': cp_command,
 }
 
 args_dict = {
@@ -62,6 +74,7 @@ args_dict = {
     'cd': ['cwd', 'extra_input'],
     'mkdir': ['cwd', 'extra_input'],
     'rmdir': ['cwd', 'extra_input'],
+    'cp': ['cwd', 'more_input']
 }
 
 print("Welcome to Project Shell!")
@@ -93,6 +106,8 @@ while 1:
                         arguments['cwd'] = os.getcwd()
                     elif i == 'extra_input':
                         arguments['extra_input'] = after_command
+                    elif i == 'more_input':
+                        arguments['more_input'] = generate_more_input(command_input)
             command_dict[command](arguments)
             run_command_this_loop = True
         else:
