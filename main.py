@@ -22,6 +22,12 @@ if ".local" in current_hostname:
     current_hostname = current_hostname.split(".local")[0]
 
 
+def generate_more_input(command_input):
+    command_input_list = command_input.split(' ')
+    command_input_list.remove(command_input_list[0])
+    return command_input_list
+
+
 def exit_command(arguments={}):
     print("Exiting...")
     sys.exit()
@@ -68,7 +74,7 @@ args_dict = {
     'cd': ['cwd', 'extra_input'],
     'mkdir': ['cwd', 'extra_input'],
     'rmdir': ['cwd', 'extra_input'],
-    'cp': ['cwd', 'extra_input']
+    'cp': ['cwd', 'more_input']
 }
 
 print("Welcome to Project Shell!")
@@ -89,6 +95,7 @@ while 1:
     just_command = command_input.split(' ')[0]
     try:
         after_command = command_input.split(' ')[1]
+        more_
     except IndexError:
         after_command = ""
     for command in command_dict.keys():
@@ -100,6 +107,8 @@ while 1:
                         arguments['cwd'] = os.getcwd()
                     elif i == 'extra_input':
                         arguments['extra_input'] = after_command
+                    elif i == 'more_input':
+                        arguments['more_input'] = generate_more_input(command_input)
             command_dict[command](arguments)
             run_command_this_loop = True
         else:
