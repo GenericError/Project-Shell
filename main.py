@@ -9,6 +9,7 @@ try:
     import mkdir
     import rmdir
     import cp
+    import rm
 except ImportError:
     print("Sorry, Project Shell can not run without the required modules!")
     exit()
@@ -57,6 +58,10 @@ def cp_command(arguments={}):
     cp.run_command(arguments)
 
 
+def rm_command(arguments={}):
+    rm.run_command(arguments)
+
+
 command_dict = {
     'exit': exit_command,
     'clear': clear_command,
@@ -65,6 +70,7 @@ command_dict = {
     'mkdir': mkdir_command,
     'rmdir': rmdir_command,
     'cp': cp_command,
+    'rm': rm_command,
 }
 
 args_dict = {
@@ -74,7 +80,8 @@ args_dict = {
     'cd': ['cwd', 'extra_input'],
     'mkdir': ['cwd', 'extra_input'],
     'rmdir': ['cwd', 'extra_input'],
-    'cp': ['cwd', 'more_input']
+    'cp': ['cwd', 'more_input'],
+    'rm': ['cwd', 'more_input'],
 }
 
 print("Welcome to Project Shell!")
