@@ -95,6 +95,7 @@ while 1:
     just_command = command_input.split(' ')[0]
     try:
         after_command = command_input.split(' ')[1]
+        more_
     except IndexError:
         after_command = ""
     for command in command_dict.keys():
