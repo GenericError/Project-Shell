@@ -22,6 +22,12 @@ def run_command(arguments={}):
             print("Sorry, an error occured.")
             return
     else:
-        files_to_delete = os.walk(current_directory)
-        for i in files_to_delete:
-            pass
+        delete_query = delete_query.split("*.")[1]
+        for file in os.listdir(current_directory):
+            if file.endswith(delete_query):
+                try:
+                    os.remove(file)
+                    print(file, "deleted.")
+                except:
+                    print("Sorry,", file, "could not be deleted.")
+    return
