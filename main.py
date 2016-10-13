@@ -70,7 +70,7 @@ command_dict = {
     'mkdir': mkdir_command,
     'rmdir': rmdir_command,
     'cp': cp_command,
-    'rm' rm_command,
+    'rm': rm_command,
 }
 
 args_dict = {
