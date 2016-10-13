@@ -1,4 +1,5 @@
 import shutil
+import os
 
 def run_command(arguments={}):
     try:
