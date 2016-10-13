@@ -6,11 +6,17 @@ def run_command(arguments={}):
     except:
         print("Sorry an error occured.")
         return
+
     try:
         extra_input = arguments['extra_input']
     except:
         print("Error: no directory name supplied.")
         return
+
+    if extra_input == "":
+        print("Error: no directory name supplied.")
+        return
+
     try:
         os.mkdir(path=extra_input)
     except FileExistsError:
