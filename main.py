@@ -6,6 +6,7 @@ try:
     import platform
     import ls
     import cd
+    import mkdir
 except ImportError:
     print("Sorry, Project Shell can not run without the required modules!")
     exit()
@@ -36,11 +37,16 @@ def cd_command(arguments={}):
     cd.run_command(arguments)
 
 
+def mkdir_command(arguments={}):
+    mkdir.run_command(arguments)
+
+
 command_dict = {
     'exit': exit_command,
     'clear': clear_command,
     'ls': ls_command,
     'cd': cd_command,
+    'mkdir': mkdir_command,
 }
 
 args_dict = {
@@ -48,6 +54,7 @@ args_dict = {
     'clear': [],
     'ls': ['cwd'],
     'cd': ['cwd', 'extra_input'],
+    'mkdir': ['cwd', 'extra_input'],
 }
 
 print("Welcome to Project Shell!")
