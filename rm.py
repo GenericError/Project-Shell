@@ -1,8 +1,6 @@
 import os
 
 def run_command(arguments={}):
-    print("Under construction")
-    return
     try:
         current_directory = arguments['cwd']
     except:
