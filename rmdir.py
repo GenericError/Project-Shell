@@ -1,15 +1,12 @@
+""" Module which includes the rmdir command """
 import os
 
-def run_command(arguments={}):
-    try:
-        current_dir = arguments['cwd']
-    except:
-        print("Sorry an error occured.")
-        return
 
+def run_command(arguments):
+    """ Function which runs the rmdir command"""
     try:
         extra_input = arguments['extra_input']
-    except:
+    except KeyError:
         print("Error: no directory name supplied.")
         return
 
@@ -22,6 +19,6 @@ def run_command(arguments={}):
     except OSError:
         print("The directory", extra_input, "is not empty.")
         return
-    except:
+    except Exception:
         print("Sorry, an error occured.")
         return

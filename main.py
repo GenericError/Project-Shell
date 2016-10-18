@@ -1,3 +1,4 @@
+""" The main module for Project Shell """
 try:
     import sys
     import os
@@ -16,64 +17,43 @@ except ImportError:
 
 NEWLINE = "\n"
 
-current_user = pwd.getpwuid(os.getuid())[0]
-current_hostname = platform.node()
+CURRENT_USER = pwd.getpwuid(os.getuid())[0]
+CURRENT_HOSTNAME = platform.node()
 
-if ".local" in current_hostname:
-    current_hostname = current_hostname.split(".local")[0]
-
-
-def generate_more_input(command_input):
-    command_input_list = command_input.split(' ')
-    command_input_list.remove(command_input_list[0])
-    return command_input_list
+if ".local" in CURRENT_HOSTNAME:
+    CURRENT_HOSTNAME = CURRENT_HOSTNAME.split(".local")[0]
 
 
-def exit_command(arguments={}):
+def gen_more_input(the_input):
+    """ Split the input into usable 'chunks' """
+    the_list = the_input.split(' ')
+    the_list.remove(the_list[0])
+    return the_list
+
+
+def exit_command(arguments):
+    """ Exits the shell """
     print("Exiting...")
     sys.exit()
 
 
-def clear_command(arguments={}):
+def clear_command(arguments):
+    """ Clears the shell """
     print(chr(27) + "[2J")
 
 
-def ls_command(arguments={}):
-    ls.run_command(arguments)
-
-
-def cd_command(arguments={}):
-    cd.run_command(arguments)
-
-
-def mkdir_command(arguments={}):
-    mkdir.run_command(arguments)
-
-
-def rmdir_command(arguments={}):
-    rmdir.run_command(arguments)
-
-
-def cp_command(arguments={}):
-    cp.run_command(arguments)
-
-
-def rm_command(arguments={}):
-    rm.run_command(arguments)
-
-
-command_dict = {
+COMMAND_DICT = {
     'exit': exit_command,
     'clear': clear_command,
-    'ls': ls_command,
-    'cd': cd_command,
-    'mkdir': mkdir_command,
-    'rmdir': rmdir_command,
-    'cp': cp_command,
-    'rm': rm_command,
+    'ls': ls.run_command,
+    'cd': cd.run_command,
+    'mkdir': mkdir.run_command,
+    'rmdir': rmdir.run_command,
+    'cp': cp.run_command,
+    'rm': rm.run_command,
 }
 
-args_dict = {
+ARGS_DICT = {
     'exit': [],
     'clear': [],
     'ls': ['cwd'],
@@ -86,42 +66,42 @@ args_dict = {
 
 print("Welcome to Project Shell!")
 print("Current time is: "+str(datetime.datetime.now()))
-print("Current user is "+current_user)
-print("Current host is "+current_hostname)
+print("Current user is "+CURRENT_USER)
+print("Current host is "+CURRENT_HOSTNAME)
 print("Current dir is "+os.getcwd())
 
 while 1:
-    run_command_this_loop = False
-    preceding_text = ""
-    preceding_text += current_user
-    preceding_text += "@"
-    preceding_text += current_hostname
-    preceding_text += " "+str(os.getcwd()).split("/")[-1]
-    preceding_text += "$ "
-    command_input = str(input(preceding_text))
-    just_command = command_input.split(' ')[0]
+    RUN_COMMAND_THIS_LOOP = False
+    PRECEDING_TEXT = ""
+    PRECEDING_TEXT += CURRENT_USER
+    PRECEDING_TEXT += "@"
+    PRECEDING_TEXT += CURRENT_HOSTNAME
+    PRECEDING_TEXT += " "+str(os.getcwd()).split("/")[-1]
+    PRECEDING_TEXT += "$ "
+    COMMAND_INPUT = str(input(PRECEDING_TEXT))
+    JUST_COMMAND = COMMAND_INPUT.split(' ')[0]
     try:
-        after_command = command_input.split(' ')[1]
+        AFTER_COMMAND = COMMAND_INPUT.split(' ')[1]
     except IndexError:
-        after_command = ""
-    for command in command_dict.keys():
-        if command == just_command:
+        AFTER_COMMAND = ""
+    for command, func in COMMAND_DICT:
+        if command == JUST_COMMAND:
             arguments = {}
-            for argumnet in args_dict:
-                for i in args_dict[command]:
+            for argumnet in ARGS_DICT:
+                for i in ARGS_DICT[command]:
                     if i == 'cwd':
                         arguments['cwd'] = os.getcwd()
                     elif i == 'extra_input':
-                        arguments['extra_input'] = after_command
+                        arguments['extra_input'] = AFTER_COMMAND
                     elif i == 'more_input':
-                        arguments['more_input'] = generate_more_input(command_input)
-            command_dict[command](arguments)
-            run_command_this_loop = True
+                        arguments['more_input'] = gen_more_input(COMMAND_INPUT)
+            func(arguments)
+            RUN_COMMAND_THIS_LOOP = True
         else:
             continue
-    if not run_command_this_loop:
-        if just_command == "":
+    if not RUN_COMMAND_THIS_LOOP:
+        if JUST_COMMAND == "":
             continue
         else:
-            print("project-shell: command", just_command, "not found")
+            print("project-shell: command", JUST_COMMAND, "not found")
             continue

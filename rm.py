@@ -1,14 +1,18 @@
+""" Module which contains the rm command """
+
 import os
 
-def run_command(arguments={}):
+
+def run_command(arguments):
+    """ Function which runs the rm command """
     try:
         current_directory = arguments['cwd']
-    except:
+    except KeyError:
         print("Sorry, an error occured.")
 
     try:
         delete_query = arguments['more_input'][0]
-    except:
+    except KeyError:
         print("The file to delete is the only required argument")
         return
 
@@ -18,7 +22,7 @@ def run_command(arguments={}):
         except OSError:
             print("You can only perform this command on files")
             return
-        except:
+        except Exception:
             print("Sorry, an error occured.")
             return
     else:
@@ -28,6 +32,6 @@ def run_command(arguments={}):
                 try:
                     os.remove(file)
                     print(file, "deleted.")
-                except:
+                except Exception:
                     print("Sorry,", file, "could not be deleted.")
     return

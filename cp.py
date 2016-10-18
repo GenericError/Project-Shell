@@ -1,12 +1,11 @@
+""" Module that performs the cp command """
+
 import shutil
 import os
 
-def run_command(arguments={}):
-    try:
-        current_dir = arguments['cwd']
-    except:
-        print("Sorry an error occured.")
-        return
+
+def run_command(arguments):
+    """ Function that runs the acutal command based on the user's input """
 
     if len(arguments['more_input']) < 2:
         print("Source and/or destination arguments are required")
@@ -31,7 +30,7 @@ def run_command(arguments={}):
         elif not os.path.exists(destination):
             try:
                 shutil.copy2(source, destination)
-            except:
+            except OSError:
                 print("Sorry, and error occured.")
         else:
             print("Sorry an error occured.")

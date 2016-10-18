@@ -1,8 +1,17 @@
+""" Module that executes the cd command """
 import os
 
-def run_command(arguments={}):
-    current_dir = arguments['cwd']
-    extra_input = arguments['extra_input']
+
+def run_command(arguments):
+    """ Runs the cd command """
+    try:
+        current_dir = arguments['cwd']
+    except KeyError:
+        print("Sorry, an error occured")
+    try:
+        extra_input = arguments['extra_input']
+    except KeyError:
+        print("The location to change to is the required argument")
     directory_to_go = os.path.join(current_dir, extra_input)
     if extra_input == "":
         print("Directoy can not be blank.")
