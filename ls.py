@@ -22,4 +22,4 @@ def run_command(arguments):
         str(" "*6).join(file_dir_list[i:i+columns_usable])
         for i in range(0, len(file_dir_list), columns_usable)
     )
-    print('\n'.join(lines))
+    return '\n'.join(lines)

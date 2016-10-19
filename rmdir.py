@@ -1,24 +1,25 @@
 """ Module which includes the rmdir command """
-import os
+import os  # Importing this for deletion and directory things
 
 
 def run_command(arguments):
     """ Function which runs the rmdir command"""
-    try:
+    try:  # Try to do the following
+        # Get the name of the directory to delete
         extra_input = arguments['extra_input']
-    except KeyError:
-        print("Error: no directory name supplied.")
-        return
+    except KeyError:  # If a name wasn't supplied
+        print("Error: no directory name supplied.")  # Tell the user
+        return  # Go back to the prompt
 
-    if extra_input == "":
-        print("Error: no directory name supplied.")
-        return
+    if extra_input == "":  # If the name supplied is blank
+        print("Error: no directory name supplied.")  # Tell the user
+        return  # Go back to the prompt
 
-    try:
-        os.rmdir(path=extra_input)
-    except OSError:
-        print("The directory", extra_input, "is not empty.")
-        return
-    except Exception:
-        print("Sorry, an error occured.")
-        return
+    try:  # Try to do the follwing
+        os.rmdir(path=extra_input)  # Remove the directory
+    except OSError:  # If the directory isn't empty
+        print("The directory", extra_input, "is not empty.")  # Tell the user
+        return  # Go back to the prompt
+    except Exception:  # If another error occured
+        print("Sorry, an error occured.")  # Tell the user
+        return  # Go back to the prompt
