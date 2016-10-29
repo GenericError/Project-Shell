@@ -11,17 +11,17 @@ def run_command(arguments):
         extra_input = arguments['extra_input']
     except KeyError:  # In case the user did not provide that
         print("Error: no directory name supplied.")  # Tell the user
-        return  # Go back to the prompt
+        return None  # Go back to the prompt
 
     if extra_input == "":  # In case the directory name was blank
         print("Error: no directory name supplied.")  # Tell the user
-        return  # Go back to the prompt
+        return None  # Go back to the prompt
 
     try:  # Try to do the following
         os.mkdir(path=extra_input)  # Make the directory
     except FileExistsError:  # If it already exists
         print("The directory", extra_input, "already exists.")  # Tell the user
-        return  # Go back to the prompt
+        return None  # Go back to the prompt
     except Exception:  # In case another error occured
         print("Sorry, an error occured.")  # Tell the user
-        return  # Go back to the prompt
+        return None  # Go back to the prompt

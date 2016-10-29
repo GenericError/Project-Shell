@@ -89,14 +89,15 @@ while 1:  # Main event loop
     PRECEDING_TEXT += "$ "  # Append a dollar sign and a space
     COMMAND_INPUT = str(input(PRECEDING_TEXT))  # Get the input of the user
     # Split the command and its flags and aguments, splitting them at spaces
-    JUST_COMMAND = COMMAND_INPUT.split(' ')[0]
+    JUST_COMMAND = COMMAND_INPUT.split(' ')[0].lower()
     try:
         # Try to see if there is more input other than just the command
         AFTER_COMMAND = COMMAND_INPUT.split(' ')[1]
     except IndexError:  # If the command is the only input
         AFTER_COMMAND = ""  # A blank string will be the extra input
-    for command, func in COMMAND_DICT:  # For each command in the dictionary
+    for command in COMMAND_DICT:  # For each command in the dictionary
         if command == JUST_COMMAND:  # If the command is equal to the input
+            func = COMMAND_DICT[command]
             arguments = {}  # Initialise an empty dictionary for arguments
             # For each command in the argument dictionary
             for thing in ARGS_DICT:

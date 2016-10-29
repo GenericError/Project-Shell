@@ -22,4 +22,5 @@ def run_command(arguments):
         str(" "*6).join(file_dir_list[i:i+columns_usable])
         for i in range(0, len(file_dir_list), columns_usable)
     )
-    return '\n'.join(lines)
+    print('\n'.join(lines))  # Print the result of the ls command
+    return None  # Go back to the prompt

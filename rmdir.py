@@ -9,17 +9,17 @@ def run_command(arguments):
         extra_input = arguments['extra_input']
     except KeyError:  # If a name wasn't supplied
         print("Error: no directory name supplied.")  # Tell the user
-        return  # Go back to the prompt
+        return None  # Go back to the prompt
 
     if extra_input == "":  # If the name supplied is blank
         print("Error: no directory name supplied.")  # Tell the user
-        return  # Go back to the prompt
+        return None  # Go back to the prompt
 
     try:  # Try to do the follwing
         os.rmdir(path=extra_input)  # Remove the directory
     except OSError:  # If the directory isn't empty
         print("The directory", extra_input, "is not empty.")  # Tell the user
-        return  # Go back to the prompt
+        return None  # Go back to the prompt
     except Exception:  # If another error occured
         print("Sorry, an error occured.")  # Tell the user
-        return  # Go back to the prompt
+        return None  # Go back to the prompt

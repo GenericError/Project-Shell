@@ -14,7 +14,7 @@ def run_command(arguments):
     # the user didn't provide any name
     except KeyError:
         print("Error: No file name was supplied")  # Tell the user
-        return  # Go back to the prompt
+        return None  # Go back to the prompt
 
     # If the user isn't trying to delete all files with
     # a certain extension (hence the wildcard)
@@ -26,10 +26,10 @@ def run_command(arguments):
         except OSError:
             # Tell the user you aren't allowed to do this
             print("You can only perform this command on files")
-            return  # Go back to the prompt
+            return None  # Go back to the prompt
         except Exception:  # If another error occured
             print("Sorry, an error occured.")  # Tell the user
-            return  # Go back to the prompt
+            return None  # Go back to the prompt
     # If the user is trying to delete all files with a certain extension
     else:
         # Create a variable to hold the name of the extension
@@ -45,9 +45,10 @@ def run_command(arguments):
                     if not os.path.isdir(thing):
                         os.remove(thing)  # Remove the file
                         print(thing, "deleted.")  # Tell the user it's gone
+                        return None  # Go back to the prompt
                     else:  # Otherwise, if it is a directory
                         continue  # Move on to the next file/folder in the dir
                 except Exception:  # If an error occured
                     # Tell the user that the thing could not be deleted
                     print("Sorry,", thing, "could not be deleted.")
-    return  # Go back to the prompt
+    return None  # Go back to the prompt
