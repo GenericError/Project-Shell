@@ -13,17 +13,21 @@ def run_command(arguments):
     except KeyError:  # In case the extra data was not in the dictionary
         # Tell the user that they missed out the argument
         print("The location to change to is the required argument")
+        return None  # Go back to the prompt
     # Get the path of the directory to change in to
     directory_to_go = os.path.join(current_dir, extra_input)
     if extra_input == "":  # If the user put in a blank directory
         print("Directoy can not be blank.")  # Tell the user
-        return  # Go back to the prompt
+        return None  # Go back to the prompt
+    elif extra_input == "~":  # If the user wants to go to the home folder
+        os.chdir(os.path.expanduser('~'))  # Goes to the folder
     # If the argument does not give a valid directory
     elif not os.path.isdir(directory_to_go):
         print(extra_input, "is not a directory.")  # Tell the user
-        return  # Go back to the prompt
+        return None  # Go back to the prompt
     elif os.path.isdir(directory_to_go):  # If it is a valid directory
         os.chdir(directory_to_go)  # Change the current directory
     else:  # Otherwise
         print("Sorry, an error occured.")  # Tell the user there was an error
-    return  # Go back to the prompt
+        return None  # Go back to the prompt
+    return None  # Go back to the prompt
