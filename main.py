@@ -34,13 +34,24 @@ def gen_more_input(the_input):
 
 def exit_command(args):
     """ Exits the shell """
-    print("Exiting...")  # Tells the user that the program is closing
-    sys.exit()  # Exits the program
+    if args == {}:  # If the arguments dictionary is blank
+        print("Exiting...")  # Tells the user that the program is closing
+        sys.exit()  # Exits the program
+    else:  # Otherwise, do the following
+        # Tell the user that they were ignored
+        print("Arguments", args, "were ignored!")
+        print("Exiting...")  # Tells the user that the program is closing
+        sys.exit()  # Exits the program
 
 
 def clear_command(args):
     """ Clears the shell """
-    print(chr(27) + "[2J")  # Clears the shell and returns to the prompt
+    if args == {}:  # If no arguments were provided
+        print(chr(27) + "[2J")  # Clears the shell and returns to the prompt
+    else:  # Otherwise
+        print(chr(27) + "[2J")  # Clears the shell
+        # Tells the user that they were ignored
+        print("Arguments", args, "were ignored!")
 
 # The following dictionary has the list of the commands, and the functions that
 # are called when the command is searched for in the dictionary
@@ -57,26 +68,26 @@ COMMAND_DICT = {
 }
 
 # The following dictionary has the list the arguments that a function requires
-# cwd means the current working directory (in the process of being depreciated)
 # more_input or extra_input means extra arguments, both of which are plannning
 # to be phased out in the near future
+# NOTE: cwd is now depreciated
 
 ARGS_DICT = {
     'exit': [],
     'clear': [],
-    'ls': ['cwd'],
-    'cd': ['cwd', 'extra_input'],
-    'mkdir': ['cwd', 'extra_input'],
-    'rmdir': ['cwd', 'extra_input'],
-    'cp': ['cwd', 'more_input'],
-    'rm': ['cwd', 'more_input'],
+    'ls': [],
+    'cd': ['extra_input'],
+    'mkdir': ['extra_input'],
+    'rmdir': ['extra_input'],
+    'cp': ['more_input'],
+    'rm': ['more_input'],
 }
 
 print("Welcome to Project Shell!")  # Welcome statement
-print("Current time is: "+str(datetime.datetime.now()))  # Unformatted time
-print("Current user is "+CURRENT_USER)  # Current username
-print("Current host is "+CURRENT_HOSTNAME)  # Current computer hostname
-print("Current dir is "+os.getcwd())  # Current working directory of the shell
+print("Current time:\t"+str(datetime.datetime.now()))  # Unformatted time
+print("Current user:\t"+CURRENT_USER)  # Current username
+print("Current host:\t"+CURRENT_HOSTNAME)  # Current computer hostname
+print("Current directory:\t"+os.getcwd())  # Current working directory
 
 while 1:  # Main event loop
     RUN_THIS_LOOP = False  # True when a command is executed in this loop
@@ -104,9 +115,7 @@ while 1:  # Main event loop
                 # For each argument in the arguments dictionary that is
                 # required for the specific command
                 for i in ARGS_DICT[command]:
-                    if i == 'cwd':  # If the argument is the cwd
-                        arguments['cwd'] = os.getcwd()  # Add it to the dict
-                    elif i == 'extra_input':  # If the argument is extra_input
+                    if i == 'extra_input':  # If the argument is extra_input
                         arguments['extra_input'] = AFTER_COMMAND  # Add to dict
                     elif i == 'more_input':  # If the argument is more_input
                         # Generate that extra input and add it to the dict
