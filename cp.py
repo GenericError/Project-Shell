@@ -50,11 +50,11 @@ def run_command(argument_list):
             raise UnsupportedOperationException("cp")
         return None
     except UnsupportedOperationException as e:
-        print(e.error_message)
+        e.print_error()
     except GenericException as e:
-        print(e.error_message)
+        e.print_error()
     except SourceDestinationAreEqualException as e:
-        print(e.error_message)
+        e.print_error()
     except SourceArgumentIsADirectoryException as e:
-        print(e.error_message)
+        e.print_error()
     return None

@@ -29,11 +29,11 @@ def run_command(argument_list):
         elif not os.path.isdir(directory_to_go):
             raise NotADirectoryException(new_directory)
     except GenericException as e:
-        print(e.error_message)
+        e.print_error()
     except BlankDirectoryException as e:
-        print(e.error_message)
+        e.print_error()
     except NotADirectoryException as e:
-        print(e.error_message)
+        e.print_error()
     if os.path.isdir(directory_to_go):  # If it is a valid directory
         os.chdir(directory_to_go)  # Change the current directory
     return None  # Go back to the prompt
