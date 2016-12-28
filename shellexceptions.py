@@ -104,3 +104,10 @@ class FileCouldNotBeDeletedException(CustomBaseException):
     def __init__(self, file_name=None):
         super().__init__()
         self.error_message = construct_error_message(file_name, "The file $VAR$ could not be deleted", "The file could not be deleted.")
+
+
+class FlagOrArgumentNotGivenException(CustomBaseException):
+    """ Raise if a flag or an argument was not given when it was required """
+    def __init__(self):
+        super().__init__()
+        self.error_message = "One or more required flags or arguments were not given."
