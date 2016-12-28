@@ -18,8 +18,11 @@ def process_string(string_to_process):
     processed_list.pop(0)  # Remove the command name
     return processed_list
 
-if sys.argv[1] == "--test":
+try:
+    if sys.argv[1] == "--test":
     test_string_to_process = input("The test string > ")
     test_processed_list = process_string(test_string_to_process)
     print("Here is the list returned by the function:")
     print(test_processed_list)
+except:
+    pass
