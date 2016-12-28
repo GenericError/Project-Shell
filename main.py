@@ -28,13 +28,6 @@ if ".local" in CURRENT_HOSTNAME:  # Some OSes append .local to the hostname
     CURRENT_HOSTNAME = CURRENT_HOSTNAME.split(".local")[0]  # We remove it here
 
 
-def gen_more_input(the_input):
-    """ Split the input into usable 'chunks' """
-    the_list = the_input.split(' ')  # Split the input where there are spaces
-    the_list.remove(the_list[0])  # Removes the command the user input
-    return the_list  # Returns all the other arguments
-
-
 def exit_command(args):
     """ Exits the shell """
     if args == {}:  # If the arguments dictionary is blank
@@ -68,22 +61,6 @@ COMMAND_DICT = {
     'rmdir': rmdir.run_command,
     'cp': cp.run_command,
     'rm': rm.run_command,
-}
-
-# The following dictionary has the list the arguments that a function requires
-# more_input or extra_input means extra arguments, both of which are plannning
-# to be phased out in the near future
-# NOTE: cwd is now depreciated
-
-ARGS_DICT = {
-    'exit': [],
-    'clear': [],
-    'ls': [],
-    'cd': ['extra_input'],
-    'mkdir': ['extra_input'],
-    'rmdir': ['extra_input'],
-    'cp': ['more_input'],
-    'rm': ['more_input'],
 }
 
 print("Welcome to Project Shell!")  # Welcome statement
