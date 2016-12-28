@@ -1,27 +1,34 @@
 """ Module which contains the mkdir command """
 
 import os  # Importing this for directory things
+from shellexceptions import *
 
 
-def run_command(arguments):
+def run_command(argument_list):
     """ Function which executes the mkdir command """
-    try:  # Try to do the following
-        # Get the user's extra input (in this case the name of
-        #  the directory to be created)
-        extra_input = arguments['extra_input']
-    except KeyError:  # In case the user did not provide that
-        print("Error: no directory name supplied.")  # Tell the user
-        return None  # Go back to the prompt
+    amount_required = 1
+    try:
+        if len(argument_list) >= amount_required:
+            pass
+        else:
+            raise Exception
+    except:
+        print("error: a required flag or argument was missing")
+        return
 
-    if extra_input == "":  # In case the directory name was blank
-        print("Error: no directory name supplied.")  # Tell the user
-        return None  # Go back to the prompt
+    new_directory_name = None
+    for i in argument_list:
+        if not i.startswith("-"):
+            new_directory_name = i
+            break
 
-    try:  # Try to do the following
-        os.mkdir(path=extra_input)  # Make the directory
-    except FileExistsError:  # If it already exists
-        print("The directory", extra_input, "already exists.")  # Tell the user
-        return None  # Go back to the prompt
-    except Exception:  # In case another error occured
-        print("Sorry, an error occured.")  # Tell the user
-        return None  # Go back to the prompt
+    try:
+        os.mkdir(path=new_directory_name)
+    except FileExistsError as e:
+        new_e = DirectoryAlreadyExists(new_directory_name)
+        new_e.print_error()
+    except GenericException as e:
+        e.print_error()
+    except DirectoryNameNotSuppliedException as e:
+        e.print_error()
+    return None
