@@ -2,6 +2,21 @@
 
 
 class BlankDirectoryException(Exception):
+class CustomBaseException(Exception):
+    def __init__(self):
+        super().__init__()
+        self.error_message = None
+
+    def print_error(self):
+        try:
+            if self.error_message:
+                print(self.error_message)
+            else:
+                print("")
+        except:
+            print("")
+
+
     """ Raise if a directory supplied is blank """
     def __init__(self):
         super().__init__()
