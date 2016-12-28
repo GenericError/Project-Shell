@@ -4,8 +4,18 @@ import os
 import shutil
 
 
-def run_command(arguments):
+def run_command(argument_list):
     """ Function that runs the ls command """
+    amount_required = 0
+    try:
+        if len(argument_list) >= amount_required:
+            pass
+        else:
+            raise Exception
+    except:
+        print("error: a required flag or argument was missing")
+        return
+    
     file_dir_list = os.listdir(os.getcwd())
     terminal_width = shutil.get_terminal_size()[0]
     longest_name = 0
