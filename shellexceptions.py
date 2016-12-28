@@ -75,3 +75,27 @@ class SourceArgumentIsADirectoryException(CustomBaseException):
     def __init__(self):
         super().__init__()
         self.error_message = "The source argumnet can not be a directory."
+
+
+class DirectoryNameNotSuppliedException(CustomBaseException):
+    """ Raise if a directory argument was not supplied when it should have been """
+    def __init__(self):
+        super().__init__()
+        self.error_message = "Directory name was not supplied."
+
+
+class DirectoryAlreadyExists(CustomBaseException):
+    """ Raise if a directory already exists """
+    def __init__(self, directory_name=None):
+        super().__init__()
+        self.error_message = self.construct_error_message(directory_name)
+
+    def construct_error_message(directory_name):
+        """ Generate a logical error message """
+        if directory_name is None:
+            return "The directory already exists."
+        else:
+            msg = "The directory "
+            msg += directory_name
+            msg += " already exists."
+            return msg
