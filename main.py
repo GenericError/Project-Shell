@@ -102,8 +102,8 @@ while 1:  # Main event loop
     PRECEDING_TEXT += " "+str(os.getcwd()).split("/")[-1]
     PRECEDING_TEXT += "$ "  # Append a dollar sign and a space
     COMMAND_INPUT = str(input(PRECEDING_TEXT))  # Get the input of the user
-    # Split the command and its flags and aguments, splitting them at spaces
-    JUST_COMMAND = COMMAND_INPUT.split(' ')[0].lower()for command in COMMAND_DICT:  # For each command in the dictionary
+    JUST_COMMAND = COMMAND_INPUT.split(' ')[0].lower()
+    for command in COMMAND_DICT:  # For each command in the dictionary
         if command == JUST_COMMAND:  # If the command is equal to the input
             func = COMMAND_DICT[command]
             func(argsplit.process_string(COMMAND_INPUT))
