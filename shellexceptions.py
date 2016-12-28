@@ -25,7 +25,7 @@ class NotADirectoryException(Exception):
 
 
 class GenericException(Exception):
-    """ A generic exception """
+    """ Raise in the case of a generic exception """
     def __init__(self):
         super().__init__()
         self.error_message = "Sorry, an error occured."
