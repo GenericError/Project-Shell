@@ -11,9 +11,13 @@ def run_command(argument_list):
             pass
         else:
             raise Exception
-    except:
-        print("error: a required flag or argument was missing")
-        return
+    except Exception as e:
+        try:
+            raise FlagOrArgumentNotGivenException
+        except FlagOrArgumentNotGivenException as new_e:
+            new_e.print_error()
+            return None
+
     new_directory = ""
     for i in argument_list:
         if not i.startswith("-"):
