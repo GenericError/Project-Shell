@@ -46,3 +46,12 @@ class UnsupportedOperationException(Exception):
             msg += command_name
             msg += "."
             return msg
+
+
+class SourceDestinationAreEqualException(Exception):
+    """ Raise if the source and destination arguments are the same """
+    def __init__(self):
+        super().__init__()
+        self.error_message = "The source and destination arguments can not be the same."
+
+
