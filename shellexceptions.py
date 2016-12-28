@@ -29,3 +29,20 @@ class GenericException(Exception):
     def __init__(self):
         super().__init__()
         self.error_message = "Sorry, an error occured."
+
+
+class UnsupportedOperationException(Exception):
+    """ Raise if the operation attempted is not currently supported """
+    def __init__(self, command_name=None):
+        super().__init__()
+        self.error_message = self.construct_error_message(command_name)
+
+    def construct_error_message(self, command_name):
+        """ Generate a logical error message """
+        if command_name is None:
+            return "That operation is not currently supported."
+        else:
+            msg = "That operation is not currently supported by "
+            msg += command_name
+            msg += "."
+            return msg
