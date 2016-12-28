@@ -55,3 +55,8 @@ class SourceDestinationAreEqualException(Exception):
         self.error_message = "The source and destination arguments can not be the same."
 
 
+class SourceArgumentIsADirectoryException(Exception):
+    """ Raise if the source argument is a directory and should not be """
+    def __init__(self):
+        super().__init__()
+        self.error_message = "The source argumnet can not be a directory."
