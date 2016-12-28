@@ -32,14 +32,14 @@ def run_command(argument_list):
         except OSError as e:
             try:
                 raise InvalidOperationForDirectoriesException
-            except InvalidOperationForDirectoriesException as e:
-                e.print_error()
+            except InvalidOperationForDirectoriesException as new_e:
+                new_e.print_error()
                 return None
         except Exception as e:  # If another error occured
             try:
                 raise GenericException
-            except GenericException as:
-                e.print_error()
+            except GenericException as new_e:
+                new_e.print_error()
                 return None
     # If the user is trying to delete all files with a certain extension
     else:
@@ -59,7 +59,10 @@ def run_command(argument_list):
                         return None  # Go back to the prompt
                     else:  # Otherwise, if it is a directory
                         continue  # Move on to the next file/folder in the dir
-                except Exception:  # If an error occured
-                    # Tell the user that the thing could not be deleted
-                    print("Sorry,", thing, "could not be deleted.")
+                except Exception as e:  # If an error occured
+                    try:
+                        raise FileCouldNotBeDeletedException(thing)
+                    except FileCouldNotBeDeletedException as new_e:
+                        new_e.print_error()
+                        return None
     return None  # Go back to the prompt
