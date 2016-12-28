@@ -25,7 +25,7 @@ def run_command(argument_list):
     try:
         os.mkdir(path=new_directory_name)
     except FileExistsError as e:
-        new_e = DirectoryAlreadyExists(new_directory_name)
+        new_e = DirectoryAlreadyExistsException(new_directory_name)
         new_e.print_error()
     except GenericException as e:
         e.print_error()
