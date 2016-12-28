@@ -1,7 +1,6 @@
 """ shellexceptions - all the exceptions for Project Shell """
 
 
-class BlankDirectoryException(Exception):
 class CustomBaseException(Exception):
     def __init__(self):
         super().__init__()
@@ -17,13 +16,14 @@ class CustomBaseException(Exception):
             print("")
 
 
+class BlankDirectoryException(CustomBaseException):
     """ Raise if a directory supplied is blank """
     def __init__(self):
         super().__init__()
         self.error_message = "Directoy can not be blank."
 
 
-class NotADirectoryException(Exception):
+class NotADirectoryException(CustomBaseException):
     """ Raise if the supplied path is not a directory """
     def __init__(self, supplied_information=None):
         super().__init__()
@@ -39,14 +39,14 @@ class NotADirectoryException(Exception):
             return msg
 
 
-class GenericException(Exception):
+class GenericException(CustomBaseException):
     """ Raise in the case of a generic exception """
     def __init__(self):
         super().__init__()
         self.error_message = "Sorry, an error occured."
 
 
-class UnsupportedOperationException(Exception):
+class UnsupportedOperationException(CustomBaseException):
     """ Raise if the operation attempted is not currently supported """
     def __init__(self, command_name=None):
         super().__init__()
@@ -63,14 +63,14 @@ class UnsupportedOperationException(Exception):
             return msg
 
 
-class SourceDestinationAreEqualException(Exception):
+class SourceDestinationAreEqualException(CustomBaseException):
     """ Raise if the source and destination arguments are the same """
     def __init__(self):
         super().__init__()
         self.error_message = "The source and destination arguments can not be the same."
 
 
-class SourceArgumentIsADirectoryException(Exception):
+class SourceArgumentIsADirectoryException(CustomBaseException):
     """ Raise if the source argument is a directory and should not be """
     def __init__(self):
         super().__init__()
