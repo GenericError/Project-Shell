@@ -12,7 +12,7 @@ try:
     import rmdir
     import cp
     import rm
-    import pwd
+    import printworkingdir
     import argsplit
 except ImportError:  # If any module failed to be imported
     print("Sorry, Project Shell can not run without the required modules!")
@@ -69,7 +69,7 @@ COMMAND_DICT = {
     'rmdir': rmdir.run_command,
     'cp': cp.run_command,
     'rm': rm.run_command,
-    'pwd': pwd.run_command,
+    'pwd': printworkingdir.run_command,
 }
 
 # The following dictionary has the list the arguments that a function requires
