@@ -2,6 +2,7 @@
 
 
 class CustomBaseException(Exception):
+    """ A custom base exception from which all other exceptions will inherit """
     def __init__(self):
         super().__init__()
         self.error_message = None
@@ -84,18 +85,25 @@ class DirectoryNameNotSuppliedException(CustomBaseException):
         self.error_message = "Directory name was not supplied."
 
 
-class DirectoryAlreadyExists(CustomBaseException):
+class DirectoryAlreadyExistsException(CustomBaseException):
     """ Raise if a directory already exists """
     def __init__(self, directory_name=None):
         super().__init__()
         self.error_message = self.construct_error_message(directory_name)
 
-    def construct_error_message(directory_name):
+    def construct_error_message(self, dir_name):
         """ Generate a logical error message """
-        if directory_name is None:
+        if dir_name is None:
             return "The directory already exists."
         else:
             msg = "The directory "
-            msg += directory_name
+            msg += dir_name
             msg += " already exists."
             return msg
+
+
+class DirectoryNotEmptyException(CustomBaseException):
+    """ Raise if a directory is not empty """
+    def __init__(self):
+        super().__init__()
+        self.error_message = "Directory is not empty."
