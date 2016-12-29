@@ -68,7 +68,9 @@ print("Current time:\t"+str(datetime.datetime.now()))  # Unformatted time
 print("Current user:\t"+CURRENT_USER)  # Current username
 print("Current host:\t"+CURRENT_HOSTNAME)  # Current computer hostname
 print("Current directory:\t"+os.getcwd())  # Current working directory
-
+if CURRENT_USER == "root":
+    print("\nWARNING! You are running Project Shell as root.")
+    print("Please exercise extra caution when issuing commands.\n")
 while 1:  # Main event loop
     RUN_THIS_LOOP = False  # True when a command is executed in this loop
     PRECEDING_TEXT = ""  # We start with a blank string
