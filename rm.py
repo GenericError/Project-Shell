@@ -18,7 +18,7 @@ def run_command(argument_list):
         except FlagOrArgumentNotGivenException as new_e:
             new_e.print_error()
             return None
-    
+
     delete_query = ""
     for i in argument_list:
         if not i.startswith("-"):
@@ -59,7 +59,6 @@ def run_command(argument_list):
                     if not os.path.isdir(thing):
                         os.remove(thing)  # Remove the file
                         print(thing, "deleted.")  # Tell the user it's gone
-                        return None  # Go back to the prompt
                     else:  # Otherwise, if it is a directory
                         continue  # Move on to the next file/folder in the dir
                 except Exception as e:  # If an error occured
