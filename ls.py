@@ -2,6 +2,8 @@
 
 import os
 import shutil
+import textwrap
+from shellexceptions import *
 
 
 def run_command(argument_list):
@@ -18,22 +20,14 @@ def run_command(argument_list):
         except FlagOrArgumentNotGivenException as new_e:
             new_e.print_error()
             return None
-    
+
     file_dir_list = os.listdir(os.getcwd())
-    terminal_width = shutil.get_terminal_size()[0]
-    longest_name = 0
-
+    terminal_width = int(shutil.get_terminal_size()[0])
+    constructed_string = ""
     for thing in file_dir_list:
-        if len(thing) > longest_name:
-            longest_name = len(thing)
-        else:
-            continue
-
-    columns_usable = int(terminal_width/longest_name)
-
-    lines = (
-        str(" "*6).join(file_dir_list[i:i+columns_usable])
-        for i in range(0, len(file_dir_list), columns_usable)
-    )
-    print('\n'.join(lines))  # Print the result of the ls command
-    return None  # Go back to the prompt
+        constructed_string += thing
+        constructed_string += ' \t\t'
+        done_first_thing = True
+    lines = textwrap.fill(text=constructed_string, width=terminal_width)
+    print(lines)
+    return None
