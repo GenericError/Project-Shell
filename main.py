@@ -86,7 +86,10 @@ print("Current directory:\t"+os.getcwd())  # Current working directory
 if CURRENT_USER == "root":
     print("\nWARNING! You are running Project Shell as root.")
     print("Please exercise extra caution when issuing commands.\n")
-while 1:  # Main event loop
+while 1:  # Main loop
+    CURRENT_DIRECTORY = os.getcwd()
+    in_home = bool(str(os.getcwd()) == str(os.path.expanduser('~')))
+    in_root = bool(str(os.getcwd()) == str('/'))
     RUN_THIS_LOOP = False  # True when a command is executed in this loop
     PRECEDING_TEXT = ""  # We start with a blank string
     PRECEDING_TEXT += CURRENT_USER  # Append the username to the string
