@@ -12,7 +12,8 @@ try:
     import rmdir
     import cp
     import rm
-    import argsplit
+    import getopt
+    from shellexceptions import *
 except ImportError:  # If any module failed to be imported
     print("Sorry, Project Shell can not run without the required modules!")
     print("This might have been a random error, perhaps try running")
@@ -69,6 +70,14 @@ COMMAND_DICT = {
     'rm': rm.run_command,
 }
 
+SHORT_OPTIONS_DICT = {
+    'cd': '',
+}
+
+LONG_OPTIONS_DICT = {
+    'cd': '',
+}
+
 print("Welcome to Project Shell!")  # Welcome statement
 print("Current time:\t"+str(datetime.datetime.now()))  # Unformatted time
 print("Current user:\t"+CURRENT_USER)  # Current username
@@ -84,7 +93,12 @@ while 1:  # Main event loop
     PRECEDING_TEXT += "@"  # Append an 'at' symbol to the string
     PRECEDING_TEXT += CURRENT_HOSTNAME  # Append the hostname to the string
     # Append the innermost directory name of the current working directory
-    PRECEDING_TEXT += " "+str(os.getcwd()).split("/")[-1]
+    if in_home:
+        PRECEDING_TEXT += " ~"
+    elif in_root:
+        PRECEDING_TEXT += " /"
+    else:
+        PRECEDING_TEXT += " "+str(CURRENT_DIRECTORY).split("/")[-1]
     PRECEDING_TEXT += "$ "  # Append a dollar sign and a space
     try:
         COMMAND_INPUT = str(input(PRECEDING_TEXT))  # Get the input of the user
@@ -93,10 +107,30 @@ while 1:  # Main event loop
     except KeyboardInterrupt:
         exit_from_exception()
     try:
+        JUST_COMMAND = COMMAND_INPUT.split(' ')[0].lower()
+        everything_but_command = COMMAND_INPUT.split(JUST_COMMAND)[1]
+    except:
+        continue
+    try:
+        try:
+            args = everything_but_command.split()
+            shrt = SHORT_OPTIONS_DICT[JUST_COMMAND]
+            lng = LONG_OPTIONS_DICT[JUST_COMMAND]
+            options, arguments = getopt.getopt(args, shortopts=shrt,
+                                               longopts=lng)
+        except getopt.GetoptError as error:
+            print(error)
+            continue
+    except Exception as e:
+        try:
+            raise GenericException
+        except GenericException as new_e:
+            new_e.print_error()
+            continue
     for command in COMMAND_DICT:  # For each command in the dictionary
         if command == JUST_COMMAND:  # If the command is equal to the input
             func = COMMAND_DICT[command]
-            func(argsplit.process_string(COMMAND_INPUT))
+            func(options, arguments)
             RUN_THIS_LOOP = True  # Yes, we have executed a command this loop
     if not RUN_THIS_LOOP:  # If a command was not executed this loop
         if JUST_COMMAND == "":  # If the user didn't give a command
