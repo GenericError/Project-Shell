@@ -17,7 +17,7 @@ def run_command(argument_list):
         except FlagOrArgumentNotGivenException as new_e:
             new_e.print_error()
             return None
-    
+
     directory_to_remove = ""
     for i in argument_list:
         if not i.startswith("-"):
@@ -27,7 +27,10 @@ def run_command(argument_list):
     try:  # Try to do the follwing
         os.rmdir(path=directory_to_remove)  # Remove the directory
     except OSError as e:
-        raise DirectoryNotEmptyException
+        try:
+            raise DirectoryNotEmptyException
+        except DirectoryNotEmptyException as new_e:
+            new_e.print_error()
     except DirectoryNotEmptyException as e:
         e.print_error()
     except Exception as e:
