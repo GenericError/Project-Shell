@@ -28,6 +28,12 @@ if ".local" in CURRENT_HOSTNAME:  # Some OSes append .local to the hostname
     CURRENT_HOSTNAME = CURRENT_HOSTNAME.split(".local")[0]  # We remove it here
 
 
+def exit_from_exception():
+    """ Call if the user interrupted the shell at input """
+    print('\n')
+    exit()
+
+
 def exit_command(args):
     """ Exits the shell """
     if args == {}:  # If the arguments dictionary is blank
@@ -80,8 +86,13 @@ while 1:  # Main event loop
     # Append the innermost directory name of the current working directory
     PRECEDING_TEXT += " "+str(os.getcwd()).split("/")[-1]
     PRECEDING_TEXT += "$ "  # Append a dollar sign and a space
-    COMMAND_INPUT = str(input(PRECEDING_TEXT))  # Get the input of the user
-    JUST_COMMAND = COMMAND_INPUT.split(' ')[0].lower()
+    try:
+        COMMAND_INPUT = str(input(PRECEDING_TEXT))  # Get the input of the user
+    except EOFError:
+        exit_from_exception()
+    except KeyboardInterrupt:
+        exit_from_exception()
+    try:
     for command in COMMAND_DICT:  # For each command in the dictionary
         if command == JUST_COMMAND:  # If the command is equal to the input
             func = COMMAND_DICT[command]
