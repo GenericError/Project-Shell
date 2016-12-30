@@ -75,6 +75,7 @@ SHORT_OPTIONS_DICT = {
     'cp': 'v ::',
     'ls': ':',
     'mkdir': 'v :',
+    'rm': 'v :',
 }
 
 LONG_OPTIONS_DICT = {
@@ -82,6 +83,7 @@ LONG_OPTIONS_DICT = {
     'cp': [],
     'ls': [],
     'mkdir': [],
+    'rm': [],
 }
 
 print("Welcome to Project Shell!")  # Welcome statement

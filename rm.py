@@ -4,33 +4,28 @@ import os  # Importing this for system operations and directory things
 from shellexceptions import *
 
 
-def run_command(argument_list):
+def run_command(options, arguments):
     """ Function which runs the rm command """
-    amount_required = 1
     try:
-        if len(argument_list) >= amount_required:
-            pass
-        else:
-            raise Exception
-    except Exception as e:
+        delete_query = arguments[0]
+    except:
         try:
             raise FlagOrArgumentNotGivenException
-        except FlagOrArgumentNotGivenException as new_e:
-            new_e.print_error()
+        except FlagOrArgumentNotGivenException as e:
+            e.print_error()
             return None
-
-    delete_query = ""
-    for i in argument_list:
-        if not i.startswith("-"):
-            delete_query = i
-            break
-
+    verbose = False
+    for option in options:
+        if option[0] in "-v":
+            verbose = True
     # If the user isn't trying to delete all files with
     # a certain extension (hence the wildcard)
     if not delete_query.startswith("*"):
         try:  # Try to do the following
-            # Try to delete the directory
+            # Try to delete the file
             os.remove(delete_query)
+            if verbose:
+                print(str(os.path.abspath(delete_query)))
         # In case the user tried to complete this operation on folders
         except OSError as e:
             try:
@@ -58,7 +53,8 @@ def run_command(argument_list):
                     # If the thing is not a directory
                     if not os.path.isdir(thing):
                         os.remove(thing)  # Remove the file
-                        print(thing, "deleted.")  # Tell the user it's gone
+                        if verbose:
+                            print(str(os.path.abspath(thing)))
                     else:  # Otherwise, if it is a directory
                         continue  # Move on to the next file/folder in the dir
                 except Exception as e:  # If an error occured
