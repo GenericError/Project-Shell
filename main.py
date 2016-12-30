@@ -21,6 +21,39 @@ except ImportError:  # If any module failed to be imported
     print("Project Shell again to see if it happens twice.")
     exit()  # Tell the user and exit the program
 
+class TerminalColours(object):
+    """ Class containing the colour and formatting codes for the terminal """
+    def __init__(self):
+        # Colour codes
+        self.blue_colour = "\033[94m"
+        self.cyan_colour = "\033[96m"
+        self.darker_cyan_colour = "\033[36m"
+        self.green_colour = "\033[92m"
+        self.yellow_colour = "\033[93m"
+        self.purple_colour = "\033[95m"
+        self.red_colour = "\033[91m"
+        # Formatting codes
+        self.bold_formatting = "\033[1m"
+        self.end_of_colours = "\033[0m"
+        self.underline_formatting = "\033[4m"
+
+    def get_colour_code(self, colour_name):
+        """ Fetches the colour code for the colour name passed """
+        return self.__getattribute__(colour_name+"_colour")
+
+    def get_formatting_code(self, formatting_code_name):
+        """ Fetches the formatting code for the formmating code name passed """
+        if formatting_code_name == "end":
+            return self.__getattribute__("end_of_colours")
+        else:
+            return self.__getattribute__(formatting_code_name+"_formatting")
+
+TerminalColourInstance = TerminalColours()
+red_warning_text = TerminalColourInstance.get_colour_code("red")
+red_warning_text += TerminalColourInstance.get_formatting_code("bold")
+red_warning_text += "WARNING!"
+red_warning_text += TerminalColourInstance.get_formatting_code("end")
+
 NEWLINE = "\n"  # Constant for the newline character (\n)
 
 CURRENT_USER = pwd.getpwuid(os.getuid())[0]  # The username of the current user
