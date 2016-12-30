@@ -1,19 +1,8 @@
 """ The main module for Project Shell """
 # Here are all our imports, most of them being commands
 try:
-    import sys
-    import os
-    import pwd
-    import datetime
-    import platform
-    import ls
-    import cd
-    import mkdir
-    import rmdir
-    import cp
-    import rm
-    import printworkingdir
-    import getopt
+    import sys, os, pwd, datetime, platform, getopt
+    import ls, cd, mkdir, rmdir, cp, rm, printworkingdir
     from shellexceptions import GenericException
 except ImportError:  # If any module failed to be imported
     print("Sorry, Project Shell can not run without the required modules!")
