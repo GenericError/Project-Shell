@@ -1,4 +1,4 @@
-""" Module that runs the os command """
+""" Module that runs the ls command """
 
 import os
 import shutil
