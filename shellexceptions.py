@@ -111,3 +111,10 @@ class FlagOrArgumentNotGivenException(CustomBaseException):
     def __init__(self):
         super().__init__()
         self.error_message = "One or more required flags or arguments were not given."
+
+
+class ImportException(CustomBaseException):
+    """ Raise if a module ould not be imported successfully """
+    def __init__(self):
+        super().__init__()
+        self.error_message = "One or more modules could not be imported"
