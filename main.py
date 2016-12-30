@@ -35,26 +35,26 @@ def exit_from_exception():
     exit()
 
 
-def exit_command(args):
+def exit_command(options, arguments):
     """ Exits the shell """
-    if args == {}:  # If the arguments dictionary is blank
+    if arguments == []:  # If the arguments dictionary is blank
         print("Exiting...")  # Tells the user that the program is closing
         sys.exit()  # Exits the program
     else:  # Otherwise, do the following
         # Tell the user that they were ignored
-        print("Arguments", args, "were ignored!")
+        print("Arguments", arguments, "were ignored!")
         print("Exiting...")  # Tells the user that the program is closing
         sys.exit()  # Exits the program
 
 
-def clear_command(args):
+def clear_command(options, arguments):
     """ Clears the shell """
-    if args == {}:  # If no arguments were provided
+    if arguments == []:  # If no arguments were provided
         print(chr(27) + "[2J")  # Clears the shell and returns to the prompt
     else:  # Otherwise
         print(chr(27) + "[2J")  # Clears the shell
         # Tells the user that they were ignored
-        print("Arguments", args, "were ignored!")
+        print("Arguments", arguments, "were ignored!")
 
 # The following dictionary has the list of the commands, and the functions that
 # are called when the command is searched for in the dictionary
@@ -77,6 +77,8 @@ SHORT_OPTIONS_DICT = {
     'mkdir': 'v :',
     'rm': 'v :',
     'rmdir': ':',
+    'exit': '',
+    'clear': '',
 }
 
 LONG_OPTIONS_DICT = {
@@ -86,6 +88,8 @@ LONG_OPTIONS_DICT = {
     'mkdir': [],
     'rm': [],
     'rmdir': [],
+    'exit': [],
+    'clear': [],
 }
 
 print("Welcome to Project Shell!")  # Welcome statement
