@@ -17,7 +17,7 @@ def run_command(options, arguments):
     constructed_string = ""
     for thing in file_dir_list:
         constructed_string += thing
-        constructed_string += ' \t\t'
+        constructed_string += ' \t\t\t'
         done_first_thing = True
     lines = textwrap.fill(text=constructed_string, width=terminal_width)
     print(lines)
