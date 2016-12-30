@@ -1,14 +1,27 @@
 """ The main module for Project Shell """
 # Here are all our imports, most of them being commands
 try:
+    from shellexceptions import GenericException, ImportException
     import sys, os, pwd, datetime, platform, getopt
     import ls, cd, mkdir, rmdir, cp, rm, printworkingdir
-    from shellexceptions import GenericException
-except ImportError:  # If any module failed to be imported
-    print("Sorry, Project Shell can not run without the required modules!")
-    print("This might have been a random error, perhaps try running")
-    print("Project Shell again to see if it happens twice.")
-    exit()  # Tell the user and exit the program
+except ImportError as e:  # If any module failed to be imported
+    try:
+        try:
+            raise ImportException
+        except ImportException as new_e:
+            new_e.print_error()
+            extra_info_q = input("Display extra debug info? [Y/n] > ")
+            if extra_info_q.lower().startswith("y"):
+                print("\n[BEGIN]\tINFO")
+                print("\n[INFO]\t"+str(e))
+                print("\n[END]\tINFO")
+                input("\nPress enter to exit Project Shell ")
+                exit()
+            else:
+                exit()
+    except:
+        exit()
+
 
 class TerminalColours(object):
     """ Class containing the colour codes for the terminal """
@@ -34,6 +47,7 @@ class TerminalFormatting(object):
         self._bold_formatting = "\033[1m"
         self._end_of_colours = "\033[0m"
         self._underline_formatting = "\033[4m"
+        self._blink_formatting = "\033[5m"
 
     def get_formatting_code(self, formatting_code_name):
         """ Fetches the formatting code for the formmating code name passed """
@@ -47,6 +61,7 @@ TerminalColourInstance = TerminalColours()
 TerminalFormattingInstance = TerminalFormatting()
 red_warning_text = TerminalColourInstance.get_colour_code("red")
 red_warning_text += TerminalFormattingInstance.get_formatting_code("bold")
+red_warning_text += TerminalFormattingInstance.get_formatting_code("blink")
 red_warning_text += "WARNING!"
 red_warning_text += TerminalFormattingInstance.get_formatting_code("end")
 
