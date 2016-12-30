@@ -3,27 +3,14 @@
 import os  # Importing this for deletion and directory things
 from shellexceptions import *
 
-def run_command(argument_list):
+def run_command(options, arguments):
     """ Function which runs the rmdir command"""
-    amount_required = 1
     try:
-        if len(argument_list) >= amount_required:
-            pass
-        else:
-            raise Exception
-    except Exception as e:
-        try:
-            raise FlagOrArgumentNotGivenException
-        except FlagOrArgumentNotGivenException as new_e:
-            new_e.print_error()
-            return None
-
-    directory_to_remove = ""
-    for i in argument_list:
-        if not i.startswith("-"):
-            directory_to_remove = i
-            break
-
+        directory_to_remove = arguments[0]
+    except Exception:
+        print('No directory was supplied!')
+        return None
+    directory_to_remove = os.path.join(os.getcwd(), directory_to_remove)
     try:  # Try to do the follwing
         os.rmdir(path=directory_to_remove)  # Remove the directory
     except OSError as e:
