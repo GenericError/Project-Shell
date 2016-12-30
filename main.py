@@ -135,7 +135,7 @@ print("Current user:\t"+CURRENT_USER)  # Current username
 print("Current host:\t"+CURRENT_HOSTNAME)  # Current computer hostname
 print("Current directory:\t"+os.getcwd())  # Current working directory
 if CURRENT_USER == "root":
-    print("\nWARNING! You are running Project Shell as root.")
+    print("\n"+red_warning_text+" You are running Project Shell as root.")
     print("Please exercise extra caution when issuing commands.\n")
 while 1:  # Main loop
     CURRENT_DIRECTORY = os.getcwd()
@@ -176,8 +176,8 @@ while 1:  # Main loop
             shrt = SHORT_OPTIONS_DICT[JUST_COMMAND]
             lng = LONG_OPTIONS_DICT[JUST_COMMAND]
 
-            options, arguments = getopt.getopt(everything_but_command, shortopts=shrt,
-                                               longopts=lng)
+            options, arguments = getopt.getopt(everything_but_command,
+                                               shortopts=shrt, longopts=lng)
         except getopt.GetoptError as error:
             print(error)
             continue
