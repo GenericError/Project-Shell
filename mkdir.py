@@ -4,29 +4,23 @@ import os  # Importing this for directory things
 from shellexceptions import *
 
 
-def run_command(argument_list):
+def run_command(options, arguments):
     """ Function which executes the mkdir command """
-    amount_required = 1
     try:
-        if len(argument_list) >= amount_required:
-            pass
-        else:
-            raise Exception
-    except Exception as e:
-        try:
-            raise FlagOrArgumentNotGivenException
-        except FlagOrArgumentNotGivenException as new_e:
-            new_e.print_error()
-            return None
-    
-    new_directory_name = None
-    for i in argument_list:
-        if not i.startswith("-"):
-            new_directory_name = i
-            break
+        new_directory_name = arguments[0]
+    except:
+        print('No directory name was supplied!')
+        return None
+
+    verbose = False
+    for option in options:
+        if option[0] in "-v":
+            verbose = True
 
     try:
         os.mkdir(path=new_directory_name)
+        if verbose:
+            print("mkdir: created directory '"+new_directory_name+"'")
     except FileExistsError as e:
         new_e = DirectoryAlreadyExistsException(new_directory_name)
         new_e.print_error()
