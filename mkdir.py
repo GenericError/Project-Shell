@@ -1,27 +1,31 @@
-import os
+""" Module which contains the mkdir command """
 
-def run_command(arguments={}):
+import os  # Importing this for directory things
+from shellexceptions import *
+
+
+def run_command(options, arguments):
+    """ Function which executes the mkdir command """
     try:
-        current_dir = arguments['cwd']
+        new_directory_name = arguments[0]
     except:
-        print("Sorry an error occured.")
-        return
+        print('No directory name was supplied!')
+        return None
+
+    verbose = False
+    for option in options:
+        if option[0] in "-v":
+            verbose = True
 
     try:
-        extra_input = arguments['extra_input']
-    except:
-        print("Error: no directory name supplied.")
-        return
-
-    if extra_input == "":
-        print("Error: no directory name supplied.")
-        return
-
-    try:
-        os.mkdir(path=extra_input)
-    except FileExistsError:
-        print("The directory", extra_input, "already exists.")
-        return
-    except:
-        print("Sorry, an error occured.")
-        return
+        os.mkdir(path=new_directory_name)
+        if verbose:
+            print("mkdir: created directory '"+new_directory_name+"'")
+    except FileExistsError as e:
+        new_e = DirectoryAlreadyExistsException(new_directory_name)
+        new_e.print_error()
+    except GenericException as e:
+        e.print_error()
+    except DirectoryNameNotSuppliedException as e:
+        e.print_error()
+    return None

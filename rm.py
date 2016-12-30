@@ -1,33 +1,66 @@
-import os
+""" Module which contains the rm command """
 
-def run_command(arguments={}):
+import os  # Importing this for system operations and directory things
+from shellexceptions import *
+
+
+def run_command(options, arguments):
+    """ Function which runs the rm command """
     try:
-        current_directory = arguments['cwd']
+        delete_query = arguments[0]
     except:
-        print("Sorry, an error occured.")
-
-    try:
-        delete_query = arguments['more_input'][0]
-    except:
-        print("The file to delete is the only required argument")
-        return
-
-    if not delete_query.startswith("*"):
         try:
-            os.remove(os.path.join(arguments['cwd'], delete_query))
-        except OSError:
-            print("You can only perform this command on files")
-            return
-        except:
-            print("Sorry, an error occured.")
-            return
+            raise FlagOrArgumentNotGivenException
+        except FlagOrArgumentNotGivenException as e:
+            e.print_error()
+            return None
+    verbose = False
+    for option in options:
+        if option[0] in "-v":
+            verbose = True
+    # If the user isn't trying to delete all files with
+    # a certain extension (hence the wildcard)
+    if not delete_query.startswith("*"):
+        try:  # Try to do the following
+            # Try to delete the file
+            os.remove(delete_query)
+            if verbose:
+                print(str(os.path.abspath(delete_query)))
+        # In case the user tried to complete this operation on folders
+        except OSError as e:
+            try:
+                raise InvalidOperationForDirectoriesException
+            except InvalidOperationForDirectoriesException as new_e:
+                new_e.print_error()
+                return None
+        except Exception as e:  # If another error occured
+            try:
+                raise GenericException
+            except GenericException as new_e:
+                new_e.print_error()
+                return None
+    # If the user is trying to delete all files with a certain extension
     else:
+        # Create a variable to hold the name of the extension
+        # EG: If delete_query was "*.txt", then the variable
+        # would now be reassigned to "txt"
         delete_query = delete_query.split("*.")[1]
-        for file in os.listdir(current_directory):
-            if file.endswith(delete_query):
-                try:
-                    os.remove(file)
-                    print(file, "deleted.")
-                except:
-                    print("Sorry,", file, "could not be deleted.")
-    return
+        # For each file and folder in the current directory
+        for thing in os.listdir(os.getcwd()):
+            # If the thing ends with the file extension
+            if thing.endswith(delete_query):
+                try:  # Try to do the following
+                    # If the thing is not a directory
+                    if not os.path.isdir(thing):
+                        os.remove(thing)  # Remove the file
+                        if verbose:
+                            print(str(os.path.abspath(thing)))
+                    else:  # Otherwise, if it is a directory
+                        continue  # Move on to the next file/folder in the dir
+                except Exception as e:  # If an error occured
+                    try:
+                        raise FileCouldNotBeDeletedException(thing)
+                    except FileCouldNotBeDeletedException as new_e:
+                        new_e.print_error()
+                        return None
+    return None  # Go back to the prompt

@@ -1,3 +1,5 @@
+""" The main module for Project Shell """
+# Here are all our imports, most of them being commands
 try:
     import sys
     import os
@@ -10,118 +12,157 @@ try:
     import rmdir
     import cp
     import rm
-except ImportError:
+    import printworkingdir
+    import getopt
+    from shellexceptions import GenericException
+except ImportError:  # If any module failed to be imported
     print("Sorry, Project Shell can not run without the required modules!")
+    print("This might have been a random error, perhaps try running")
+    print("Project Shell again to see if it happens twice.")
+    exit()  # Tell the user and exit the program
+
+NEWLINE = "\n"  # Constant for the newline character (\n)
+
+CURRENT_USER = pwd.getpwuid(os.getuid())[0]  # The username of the current user
+CURRENT_HOSTNAME = platform.node()  # The hostname of the current computer
+
+if ".local" in CURRENT_HOSTNAME:  # Some OSes append .local to the hostname
+    CURRENT_HOSTNAME = CURRENT_HOSTNAME.split(".local")[0]  # We remove it here
+
+
+def exit_from_exception():
+    """ Call if the user interrupted the shell at input """
+    print('\n')
     exit()
 
-NEWLINE = "\n"
 
-current_user = pwd.getpwuid(os.getuid())[0]
-current_hostname = platform.node()
-
-if ".local" in current_hostname:
-    current_hostname = current_hostname.split(".local")[0]
-
-
-def generate_more_input(command_input):
-    command_input_list = command_input.split(' ')
-    command_input_list.remove(command_input_list[0])
-    return command_input_list
+def exit_command(options, arguments):
+    """ Exits the shell """
+    if arguments == []:  # If the arguments dictionary is blank
+        print("Exiting...")  # Tells the user that the program is closing
+        sys.exit()  # Exits the program
+    else:  # Otherwise, do the following
+        # Tell the user that they were ignored
+        print("Arguments", arguments, "were ignored!")
+        print("Exiting...")  # Tells the user that the program is closing
+        sys.exit()  # Exits the program
 
 
-def exit_command(arguments={}):
-    print("Exiting...")
-    sys.exit()
+def clear_command(options, arguments):
+    """ Clears the shell """
+    if arguments == []:  # If no arguments were provided
+        print(chr(27) + "[2J")  # Clears the shell and returns to the prompt
+    else:  # Otherwise
+        print(chr(27) + "[2J")  # Clears the shell
+        # Tells the user that they were ignored
+        print("Arguments", arguments, "were ignored!")
 
+# The following dictionary has the list of the commands, and the functions that
+# are called when the command is searched for in the dictionary
 
-def clear_command(arguments={}):
-    print(chr(27) + "[2J")
-
-
-def ls_command(arguments={}):
-    ls.run_command(arguments)
-
-
-def cd_command(arguments={}):
-    cd.run_command(arguments)
-
-
-def mkdir_command(arguments={}):
-    mkdir.run_command(arguments)
-
-
-def rmdir_command(arguments={}):
-    rmdir.run_command(arguments)
-
-
-def cp_command(arguments={}):
-    cp.run_command(arguments)
-
-
-def rm_command(arguments={}):
-    rm.run_command(arguments)
-
-
-command_dict = {
+COMMAND_DICT = {
     'exit': exit_command,
     'clear': clear_command,
-    'ls': ls_command,
-    'cd': cd_command,
-    'mkdir': mkdir_command,
-    'rmdir': rmdir_command,
-    'cp': cp_command,
-    'rm': rm_command,
+    'ls': ls.run_command,
+    'cd': cd.run_command,
+    'mkdir': mkdir.run_command,
+    'rmdir': rmdir.run_command,
+    'cp': cp.run_command,
+    'rm': rm.run_command,
+    'pwd': printworkingdir.run_command,
 }
 
-args_dict = {
+SHORT_OPTIONS_DICT = {
+    'cd': '',
+    'cp': 'v ::',
+    'ls': ':',
+    'mkdir': 'v :',
+    'rm': 'v :',
+    'rmdir': ':',
+    'exit': '',
+    'clear': '',
+    'pwd': '',
+}
+
+LONG_OPTIONS_DICT = {
+    'cd': [],
+    'cp': [],
+    'ls': [],
+    'mkdir': [],
+    'rm': [],
+    'rmdir': [],
     'exit': [],
     'clear': [],
-    'ls': ['cwd'],
-    'cd': ['cwd', 'extra_input'],
-    'mkdir': ['cwd', 'extra_input'],
-    'rmdir': ['cwd', 'extra_input'],
-    'cp': ['cwd', 'more_input'],
-    'rm': ['cwd', 'more_input'],
+    'pwd': [],
 }
 
-print("Welcome to Project Shell!")
-print("Current time is: "+str(datetime.datetime.now()))
-print("Current user is "+current_user)
-print("Current host is "+current_hostname)
-print("Current dir is "+os.getcwd())
-
-while 1:
-    run_command_this_loop = False
-    preceding_text = ""
-    preceding_text += current_user
-    preceding_text += "@"
-    preceding_text += current_hostname
-    preceding_text += " "+str(os.getcwd()).split("/")[-1]
-    preceding_text += "$ "
-    command_input = str(input(preceding_text))
-    just_command = command_input.split(' ')[0]
+print("Welcome to Project Shell!")  # Welcome statement
+print("Current time:\t"+str(datetime.datetime.now()))  # Unformatted time
+print("Current user:\t"+CURRENT_USER)  # Current username
+print("Current host:\t"+CURRENT_HOSTNAME)  # Current computer hostname
+print("Current directory:\t"+os.getcwd())  # Current working directory
+if CURRENT_USER == "root":
+    print("\nWARNING! You are running Project Shell as root.")
+    print("Please exercise extra caution when issuing commands.\n")
+while 1:  # Main loop
+    CURRENT_DIRECTORY = os.getcwd()
+    in_home = bool(str(os.getcwd()) == str(os.path.expanduser('~')))
+    in_root = bool(str(os.getcwd()) == str('/'))
+    RUN_THIS_LOOP = False  # True when a command is executed in this loop
+    PRECEDING_TEXT = ""  # We start with a blank string
+    PRECEDING_TEXT += CURRENT_USER  # Append the username to the string
+    PRECEDING_TEXT += "@"  # Append an 'at' symbol to the string
+    PRECEDING_TEXT += CURRENT_HOSTNAME  # Append the hostname to the string
+    # Append the innermost directory name of the current working directory
+    if in_home:
+        PRECEDING_TEXT += " ~"
+    elif in_root:
+        PRECEDING_TEXT += " /"
+    else:
+        PRECEDING_TEXT += " "+str(CURRENT_DIRECTORY).split("/")[-1]
+    PRECEDING_TEXT += "$ "  # Append a dollar sign and a space
     try:
-        after_command = command_input.split(' ')[1]
-    except IndexError:
-        after_command = ""
-    for command in command_dict.keys():
-        if command == just_command:
-            arguments = {}
-            for argumnet in args_dict:
-                for i in args_dict[command]:
-                    if i == 'cwd':
-                        arguments['cwd'] = os.getcwd()
-                    elif i == 'extra_input':
-                        arguments['extra_input'] = after_command
-                    elif i == 'more_input':
-                        arguments['more_input'] = generate_more_input(command_input)
-            command_dict[command](arguments)
-            run_command_this_loop = True
-        else:
+        COMMAND_INPUT = str(input(PRECEDING_TEXT))  # Get the input of the user
+        COMMAND_INPUT = COMMAND_INPUT.strip()
+    except EOFError:
+        exit_from_exception()
+    except KeyboardInterrupt:
+        exit_from_exception()
+    try:
+        JUST_COMMAND = COMMAND_INPUT.split(' ')[0].lower()
+        everything_but_command = COMMAND_INPUT.split()
+        everything_but_command.pop(0)
+    except Exception as e:
+        try:
+            raise GenericException
+        except GenericException as new_e:
+            new_e.print_error()
             continue
-    if not run_command_this_loop:
-        if just_command == "":
+    try:
+        try:
+            shrt = SHORT_OPTIONS_DICT[JUST_COMMAND]
+            lng = LONG_OPTIONS_DICT[JUST_COMMAND]
+
+            options, arguments = getopt.getopt(everything_but_command, shortopts=shrt,
+                                               longopts=lng)
+        except getopt.GetoptError as error:
+            print(error)
             continue
-        else:
-            print("project-shell: command", just_command, "not found")
+    except Exception as e:
+        try:
+            raise GenericException
+        except GenericException as new_e:
+            new_e.print_error()
             continue
+    for command in COMMAND_DICT:  # For each command in the dictionary
+        if command == JUST_COMMAND:  # If the command is equal to the input
+            func = COMMAND_DICT[command]
+            func(options, arguments)
+            RUN_THIS_LOOP = True  # Yes, we have executed a command this loop
+    if not RUN_THIS_LOOP:  # If a command was not executed this loop
+        if JUST_COMMAND == "":  # If the user didn't give a command
+            continue  # Do nothing and go back to the prompt
+        else:  # Otherwise
+            # Tell the user the command was not found
+            print("project-shell: command", JUST_COMMAND, "not found")
+            continue  # Go back to the prompt

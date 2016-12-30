@@ -1,39 +1,55 @@
-import shutil
-import os
+""" Module that performs the cp command """
 
-def run_command(arguments={}):
+import shutil  # Import this for copyying files with metadata
+import os  # Import this for system things
+from shellexceptions import *
+
+
+def run_command(options, arguments):
+    """ Function that runs the acutal command based on the user's input """
     try:
-        current_dir = arguments['cwd']
-    except:
-        print("Sorry an error occured.")
-        return
-
-    if len(arguments['more_input']) < 2:
-        print("Source and/or destination arguments are required")
-        return
-    elif len(arguments['more_input']) > 2:
-        print("Source and destination are the only required arguments")
-        return
-
-    more_input = arguments['more_input']
-    source = more_input[0]
-    destination = more_input[1]
-
-    if source == destination:
-        print("The two given arguments can not be the same")
-        return
-    elif os.path.isdir(source):
-        print("Error: the source argumnet is a directory!")
-        return
-    elif os.path.isfile(source):
-        if os.path.exists(destination):
-            print("That operation is not currently supported by cp")
-        elif not os.path.exists(destination):
-            try:
-                shutil.copy2(source, destination)
-            except:
-                print("Sorry, and error occured.")
-        else:
-            print("Sorry an error occured.")
-    else:
-        print("That operation is not currently supported by cp")
+        source = os.path.abspath(arguments[0])
+        destination = os.path.abspath(arguments[1])
+    except IndexError:
+        try:
+            raise FlagOrArgumentNotGivenException
+        except FlagOrArgumentNotGivenException as e:
+            e.print_error()
+            return None
+    verbose = False
+    for option in options:
+        if option[0] in "-v":
+            verbose = True
+    try:
+        if source == destination:  # If the source and the destination are the same
+            raise SourceDestinationAreEqualException
+        elif os.path.isdir(source):  # If the source argument is a directory
+            raise SourceArgumentIsADirectoryException
+        elif os.path.isfile(source):  # If the source is a file
+            if os.path.exists(destination):  # If the destination exists
+                # TODO: Implement the appropriate actions here
+                raise UnsupportedOperationException("cp")
+            # If the destination does not exist
+            elif not os.path.exists(destination):
+                try:  # Try to do the following
+                    # Copy the source to the destination with metadata
+                    shutil.copy2(source, destination)
+                    if verbose:
+                        print(source, "->", destination)
+                except OSError:  # In case an error occured
+                    raise GenericException
+            else:  # In case something went wrong
+                raise GenericException
+        else:  # In case the user tried to perform another operation
+            # TODO: Implement the appropriate actions here
+            raise UnsupportedOperationException("cp")
+        return None
+    except UnsupportedOperationException as e:
+        e.print_error()
+    except GenericException as e:
+        e.print_error()
+    except SourceDestinationAreEqualException as e:
+        e.print_error()
+    except SourceArgumentIsADirectoryException as e:
+        e.print_error()
+    return None
