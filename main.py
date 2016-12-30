@@ -81,6 +81,7 @@ SHORT_OPTIONS_DICT = {
     'rmdir': ':',
     'exit': '',
     'clear': '',
+    'pwd': '',
 }
 
 LONG_OPTIONS_DICT = {
@@ -92,6 +93,7 @@ LONG_OPTIONS_DICT = {
     'rmdir': [],
     'exit': [],
     'clear': [],
+    'pwd': [],
 }
 
 print("Welcome to Project Shell!")  # Welcome statement
