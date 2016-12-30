@@ -73,11 +73,13 @@ COMMAND_DICT = {
 SHORT_OPTIONS_DICT = {
     'cd': '',
     'cp': 'v ::',
+    'ls': ':',
 }
 
 LONG_OPTIONS_DICT = {
     'cd': [],
     'cp': [],
+    'ls': [],
 }
 
 print("Welcome to Project Shell!")  # Welcome statement

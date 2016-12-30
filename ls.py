@@ -3,25 +3,16 @@
 import os
 import shutil
 import textwrap
-from shellexceptions import *
 
 
-def run_command(argument_list):
+def run_command(options, arguments):
     """ Function that runs the ls command """
-    amount_required = 0
     try:
-        if len(argument_list) >= amount_required:
-            pass
-        else:
-            raise Exception
-    except Exception as e:
-        try:
-            raise FlagOrArgumentNotGivenException
-        except FlagOrArgumentNotGivenException as new_e:
-            new_e.print_error()
-            return None
+        dir_to_scan = arguments[0]
+    except:
+        dir_to_scan = '.'
 
-    file_dir_list = os.listdir(os.getcwd())
+    file_dir_list = os.listdir(os.path.abspath(dir_to_scan))
     terminal_width = int(shutil.get_terminal_size()[0])
     constructed_string = ""
     for thing in file_dir_list:
