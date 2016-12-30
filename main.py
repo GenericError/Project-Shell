@@ -13,7 +13,7 @@ try:
     import cp
     import rm
     import getopt
-    from shellexceptions import *
+    from shellexceptions import GenericException
 except ImportError:  # If any module failed to be imported
     print("Sorry, Project Shell can not run without the required modules!")
     print("This might have been a random error, perhaps try running")
@@ -72,10 +72,12 @@ COMMAND_DICT = {
 
 SHORT_OPTIONS_DICT = {
     'cd': '',
+    'cp': 'v ::',
 }
 
 LONG_OPTIONS_DICT = {
-    'cd': '',
+    'cd': [],
+    'cp': [],
 }
 
 print("Welcome to Project Shell!")  # Welcome statement
@@ -105,21 +107,27 @@ while 1:  # Main loop
     PRECEDING_TEXT += "$ "  # Append a dollar sign and a space
     try:
         COMMAND_INPUT = str(input(PRECEDING_TEXT))  # Get the input of the user
+        COMMAND_INPUT = COMMAND_INPUT.strip()
     except EOFError:
         exit_from_exception()
     except KeyboardInterrupt:
         exit_from_exception()
     try:
         JUST_COMMAND = COMMAND_INPUT.split(' ')[0].lower()
-        everything_but_command = COMMAND_INPUT.split(JUST_COMMAND)[1]
-    except:
-        continue
+        everything_but_command = COMMAND_INPUT.split()
+        everything_but_command.pop(0)
+    except Exception as e:
+        try:
+            raise GenericException
+        except GenericException as new_e:
+            new_e.print_error()
+            continue
     try:
         try:
-            args = everything_but_command.split()
             shrt = SHORT_OPTIONS_DICT[JUST_COMMAND]
             lng = LONG_OPTIONS_DICT[JUST_COMMAND]
-            options, arguments = getopt.getopt(args, shortopts=shrt,
+
+            options, arguments = getopt.getopt(everything_but_command, shortopts=shrt,
                                                longopts=lng)
         except getopt.GetoptError as error:
             print(error)
