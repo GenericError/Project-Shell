@@ -12,6 +12,7 @@ try:
     import rmdir
     import cp
     import rm
+    import printworkingdir
     import getopt
     from shellexceptions import GenericException
 except ImportError:  # If any module failed to be imported
@@ -68,6 +69,7 @@ COMMAND_DICT = {
     'rmdir': rmdir.run_command,
     'cp': cp.run_command,
     'rm': rm.run_command,
+    'pwd': printworkingdir.run_command,
 }
 
 SHORT_OPTIONS_DICT = {
