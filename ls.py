@@ -1,26 +1,24 @@
-""" Module that runs the os command """
+""" Module that runs the ls command """
 
 import os
 import shutil
+import textwrap
 
 
-def run_command(arguments):
+def run_command(options, arguments):
     """ Function that runs the ls command """
-    file_dir_list = os.listdir(os.getcwd())
-    terminal_width = shutil.get_terminal_size()[0]
-    longest_name = 0
+    try:
+        dir_to_scan = arguments[0]
+    except:
+        dir_to_scan = '.'
 
+    file_dir_list = os.listdir(os.path.abspath(dir_to_scan))
+    terminal_width = int(shutil.get_terminal_size()[0])
+    constructed_string = ""
     for thing in file_dir_list:
-        if len(thing) > longest_name:
-            longest_name = len(thing)
-        else:
-            continue
-
-    columns_usable = int(terminal_width/longest_name)
-
-    lines = (
-        str(" "*6).join(file_dir_list[i:i+columns_usable])
-        for i in range(0, len(file_dir_list), columns_usable)
-    )
-    print('\n'.join(lines))  # Print the result of the ls command
-    return None  # Go back to the prompt
+        constructed_string += thing
+        constructed_string += ' \t\t\t'
+        done_first_thing = True
+    lines = textwrap.fill(text=constructed_string, width=terminal_width)
+    print(lines)
+    return None
