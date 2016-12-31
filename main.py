@@ -1,9 +1,11 @@
 """ The main module for Project Shell """
 # Here are all our imports, most of them being commands
+
 try:
     from shellexceptions import GenericException, ImportException
-    import sys, os, pwd, datetime, platform, getopt
+    import os, pwd, datetime, platform, getopt
     import ls, cd, mkdir, rmdir, cp, rm, printworkingdir
+    import exittheshell, cleartheshell
 except ImportError as e:  # If any module failed to be imported
     try:
         try:
@@ -19,7 +21,7 @@ except ImportError as e:  # If any module failed to be imported
                 exit()
             else:
                 exit()
-    except:
+    except Exception:
         exit()
 
 
@@ -37,7 +39,7 @@ class TerminalColours(object):
 
     def get_colour_code(self, colour_name):
         """ Fetches the colour code for the colour name passed """
-        return self.__getattribute__("_"+colour_name+"_colour")
+        return getattr(self, "_"+colour_name+"_colour")
 
 
 class TerminalFormatting(object):
@@ -54,7 +56,7 @@ class TerminalFormatting(object):
         if formatting_code_name == "end":
             return self.__getattribute__("_end_of_colours")
         else:
-            return self.__getattribute__("_"+formatting_code_name+"_formatting")
+            return getattr(self, "_"+formatting_code_name+"_formatting")
 
 
 TerminalColourInstance = TerminalColours()
@@ -79,54 +81,12 @@ def exit_from_exception():
     print('\n')
     exit()
 
-
-def exit_command(options, arguments):
-    """ Exits the shell """
-    if options == []:
-        if arguments == []:  # If the arguments dictionary is blank
-            print("Exiting...")  # Tells the user that the program is closing
-            sys.exit()  # Exits the program
-        else:  # Otherwise, do the following
-            # Tell the user that they were ignored
-            print("Arguments", arguments, "were ignored!")
-            print("Exiting...")  # Tells the user that the program is closing
-            sys.exit()  # Exits the program
-    else:
-        if arguments == []:
-            print("Options", options, "were ignored!")
-            print("Exiting...")
-            sys.exit()
-        else:
-            print("Options", options, "were ignored!")
-            print("Arguments", arguments, "were ignored!")
-            print("Exiting...")
-            sys.exit()
-
-
-def clear_command(options, arguments):
-    """ Clears the shell """
-    if options == []:
-        if arguments == []:  # If no arguments were provided
-            print(chr(27) + "[2J")  # Clears the shell and returns to the prompt
-        else:  # Otherwise
-            print(chr(27) + "[2J")  # Clears the shell
-            # Tells the user that they were ignored
-            print("Arguments", arguments, "were ignored!")
-    else:
-        if arguments == []:
-            print(chr(27) + "[2J")
-            print("Options", options, "were ignored!")
-        else:
-            print(chr(27) + "[2J")
-            print("Options", options, "were ignored!")
-            print("Arguments", arguments, "were ignored!")
-
 # The following dictionary has the list of the commands, and the functions that
 # are called when the command is searched for in the dictionary
 
 COMMAND_DICT = {
-    'exit': exit_command,
-    'clear': clear_command,
+    'exit': exittheshell.run_command,
+    'clear': cleartheshell.run_command,
     'ls': ls.run_command,
     'cd': cd.run_command,
     'mkdir': mkdir.run_command,
@@ -204,11 +164,12 @@ while 1:  # Main loop
             continue
     try:
         try:
-            shrt = SHORT_OPTIONS_DICT[JUST_COMMAND]
-            lng = LONG_OPTIONS_DICT[JUST_COMMAND]
+            short_options = SHORT_OPTIONS_DICT[JUST_COMMAND]
+            long_options = LONG_OPTIONS_DICT[JUST_COMMAND]
 
             options, arguments = getopt.getopt(everything_but_command,
-                                               shortopts=shrt, longopts=lng)
+                                               shortopts=short_options,
+                                               longopts=long_options)
         except getopt.GetoptError as error:
             print(error)
             continue
