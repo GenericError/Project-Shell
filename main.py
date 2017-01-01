@@ -21,7 +21,7 @@ except ImportError as e:  # If any module failed to be imported
                 exit()
             else:
                 exit()
-    except:
+    except Exception:
         exit_from_exception()
 
 
@@ -33,19 +33,46 @@ red_warning_text += TerminalFormattingInstance.get_formatting_code("blink")
 red_warning_text += "WARNING!"
 red_warning_text += TerminalFormattingInstance.get_formatting_code("end")
 
+
+def get_current_user():
+    user = pwd.getpwuid(os.getuid())[0]
+    return user
+
+def get_current_hostname():
+    hostname = platform.node()
+    if hostname.endswith(".local"):
+        hostname = hostname.split(".local")[0]  # We remove it here
+    return hostname
+
+
+CURRENT_USER = get_current_user()  # The username of the current user
+CURRENT_HOSTNAME =  get_current_hostname # The hostname of the current computer
 NEWLINE = "\n"  # Constant for the newline character (\n)
-
-CURRENT_USER = pwd.getpwuid(os.getuid())[0]  # The username of the current user
-CURRENT_HOSTNAME = platform.node()  # The hostname of the current computer
-
-if ".local" in CURRENT_HOSTNAME:  # Some OSes append .local to the hostname
-    CURRENT_HOSTNAME = CURRENT_HOSTNAME.split(".local")[0]  # We remove it here
 
 
 def exit_from_exception():
     """ Call if the user interrupted the shell at input """
     print('\n')
     exit()
+
+
+def generate_welcome_message():
+    generated_message = ""
+    generated_message += "Welcome to Project Shell!"
+    generated_message += "Current time:\t"+str(datetime.datetime.now())
+    generated_message += "Current user:\t"+CURRENT_USER
+    generated_message += "Current host:\t"+CURRENT_HOSTNAME
+    generated_message += "Current directory:\t"+os.getcwd()
+    return generated_message
+
+
+def generate_root_warning(executing_command=True, command_name=None):
+    generated_message = ""
+    generated_message += "\n"+red_warning_text+" You are running Project Shell as root."
+    if not executing_command:
+        generated_message += "Please exercise extra caution when issuing commands.\n"
+    else:
+        generated_message += "You entered '"+command_name, "'. Confirm it is correct"
 
 # The following dictionary has the list of the commands, and the functions that
 # are called when the command is searched for in the dictionary
@@ -86,14 +113,11 @@ LONG_OPTIONS_DICT = {
     'pwd': [],
 }
 
-print("Welcome to Project Shell!")  # Welcome statement
-print("Current time:\t"+str(datetime.datetime.now()))  # Unformatted time
-print("Current user:\t"+CURRENT_USER)  # Current username
-print("Current host:\t"+CURRENT_HOSTNAME)  # Current computer hostname
-print("Current directory:\t"+os.getcwd())  # Current working directory
+print(generate_welcome_message())
+
 if CURRENT_USER == "root":
-    print("\n"+red_warning_text+" You are running Project Shell as root.")
-    print("Please exercise extra caution when issuing commands.\n")
+    print(generate_root_warning(executing_command=False))
+
 while 1:  # Main loop
     CURRENT_DIRECTORY = os.getcwd()
     in_home = bool(str(os.getcwd()) == str(os.path.expanduser('~')))
