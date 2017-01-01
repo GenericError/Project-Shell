@@ -89,29 +89,19 @@ COMMAND_DICT = {
     'pwd': printworkingdir.run_command,
 }
 
-SHORT_OPTIONS_DICT = {
-    'cd': '',
-    'cp': 'v ::',
-    'ls': ':',
-    'mkdir': 'v :',
-    'rm': 'v :',
-    'rmdir': ':',
-    'exit': '',
-    'clear': '',
-    'pwd': '',
+# 'command name': ['short options', [long, options]]
+OPTIONS_DICT = {
+    'cd': ['', []],
+    'cp': ['v ::', []],
+    'ls': [':', []],
+    'mkdir': ['v :', []],
+    'rm': ['v :', []],
+    'rmdir': [':', []],
+    'exit': ['', []],
+    'clear': ['', []],
+    'pwd': ['', []],
 }
 
-LONG_OPTIONS_DICT = {
-    'cd': [],
-    'cp': [],
-    'ls': [],
-    'mkdir': [],
-    'rm': [],
-    'rmdir': [],
-    'exit': [],
-    'clear': [],
-    'pwd': [],
-}
 
 print(generate_welcome_message())
 
@@ -154,8 +144,8 @@ while 1:  # Main loop
             continue
     try:
         try:
-            short_options = SHORT_OPTIONS_DICT[JUST_COMMAND]
-            long_options = LONG_OPTIONS_DICT[JUST_COMMAND]
+            short_options = OPTIONS_DICT[JUST_COMMAND][0]
+            long_options = OPTIONS_DICT[JUST_COMMAND][1]
 
             options, arguments = getopt.getopt(everything_but_command,
                                                shortopts=short_options,
