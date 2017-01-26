@@ -4,6 +4,13 @@ import shutil  # Import this for copyying files with metadata
 import os  # Import this for system things
 from shellexceptions import *
 
+MAN_DOC = """cp - copy files
+Usage: cp [-v] source_file destination_file
+
+cp copies the source_file to the destination_file
+cp can only copy files; folders are not supported
+
+If the -v flag is present, cp will be verbose"""
 
 def run_command(options, arguments):
     """ Function that runs the acutal command based on the user's input """
