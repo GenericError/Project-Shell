@@ -46,7 +46,7 @@ def get_current_hostname():
 
 
 CURRENT_USER = get_current_user()  # The username of the current user
-CURRENT_HOSTNAME =  get_current_hostname # The hostname of the current computer
+CURRENT_HOSTNAME =  get_current_hostname()  # The hostname of the current computer
 NEWLINE = "\n"  # Constant for the newline character (\n)
 
 
@@ -58,11 +58,11 @@ def exit_from_exception():
 
 def generate_welcome_message():
     generated_message = ""
-    generated_message += "Welcome to Project Shell!"
-    generated_message += "Current time:\t"+str(datetime.datetime.now())
-    generated_message += "Current user:\t"+CURRENT_USER
-    generated_message += "Current host:\t"+CURRENT_HOSTNAME
-    generated_message += "Current directory:\t"+os.getcwd()
+    generated_message += "\nWelcome to Project Shell!"
+    generated_message += "\nCurrent time:\t"+str(datetime.datetime.now())
+    generated_message += "\nCurrent user:\t"+CURRENT_USER
+    generated_message += "\nCurrent host:\t"+CURRENT_HOSTNAME
+    generated_message += "\nCurrent directory:\t"+os.getcwd()
     return generated_message
 
 
