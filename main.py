@@ -6,6 +6,7 @@ try:
     import os, pwd, datetime, platform, getopt, textcodes
     import ls, cd, mkdir, rmdir, cp, rm, printworkingdir
     import exittheshell, cleartheshell
+    import man
 except ImportError as e:  # If any module failed to be imported
     try:
         try:
@@ -87,6 +88,7 @@ COMMAND_DICT = {
     'cp': cp.run_command,
     'rm': rm.run_command,
     'pwd': printworkingdir.run_command,
+    'man': man.run_command,
 }
 
 # 'command name': ['short options', [long, options]]
@@ -100,6 +102,7 @@ OPTIONS_DICT = {
     'exit': ['', []],
     'clear': ['', []],
     'pwd': ['', []],
+    'man': [': h', []],
 }
 
 
