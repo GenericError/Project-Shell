@@ -3,6 +3,13 @@
 import os  # Importing this for deletion and directory things
 from shellexceptions import *
 
+MAN_DOC = """rmdir - remove directories
+Usage: rmdir directory
+
+rmdir deletes an empty directory with the name of the directory specified.
+Attempting to remove a non-empty directory will result in an error.
+It is automatically assumed that the directory for deletion exists in the current working directory. If not, supply a full or relative path to the directory for removal."""
+
 def run_command(options, arguments):
     """ Function which runs the rmdir command"""
     try:
