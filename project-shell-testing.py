@@ -30,6 +30,13 @@ class TestCdCommand(unittest.TestCase):
                          msg="cd did not change the directory")
 
 
+class TestClearCommand(unittest.TestCase):
+    """ This module doesn't really 'test' anything -
+    in fact it will only fail if there is a syntax error """
+
+    def test_import(self):
+        import cleartheshell
+
 
 if __name__ == '__main__':
     unittest.main()
