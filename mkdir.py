@@ -6,11 +6,13 @@ from shellexceptions import *
 
 def run_command(options, arguments):
     """ Function which executes the mkdir command """
+    return_code = 0
     try:
         new_directory_name = arguments[0]
     except:
         print('No directory name was supplied!')
-        return None
+        return_code = 1
+        return return_code
 
     verbose = False
     for option in options:
@@ -26,6 +28,8 @@ def run_command(options, arguments):
         new_e.print_error()
     except GenericException as e:
         e.print_error()
+        return_code = 1
     except DirectoryNameNotSuppliedException as e:
         e.print_error()
-    return None
+        return_code = 1
+    return return_code

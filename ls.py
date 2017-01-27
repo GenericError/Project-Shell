@@ -7,6 +7,7 @@ import textwrap
 
 def run_command(options, arguments):
     """ Function that runs the ls command """
+    return_code = 0
     try:
         dir_to_scan = arguments[0]
     except:
@@ -21,4 +22,4 @@ def run_command(options, arguments):
         done_first_thing = True
     lines = textwrap.fill(text=constructed_string, width=terminal_width)
     print(lines)
-    return None
+    return return_code

@@ -7,6 +7,7 @@ from shellexceptions import *
 
 def run_command(options, arguments):
     """ Function that runs the acutal command based on the user's input """
+    return_code = 0
     try:
         source = os.path.abspath(arguments[0])
         destination = os.path.abspath(arguments[1])
@@ -15,7 +16,8 @@ def run_command(options, arguments):
             raise FlagOrArgumentNotGivenException
         except FlagOrArgumentNotGivenException as e:
             e.print_error()
-            return None
+            return_code = 1
+            return return_code
     verbose = False
     for option in options:
         if option[0] in "-v":
@@ -43,13 +45,17 @@ def run_command(options, arguments):
         else:  # In case the user tried to perform another operation
             # TODO: Implement the appropriate actions here
             raise UnsupportedOperationException("cp")
-        return None
+        return return_code
     except UnsupportedOperationException as e:
         e.print_error()
+        return_code = 1
     except GenericException as e:
         e.print_error()
+        return_code = 1
     except SourceDestinationAreEqualException as e:
         e.print_error()
+        return_code = 1
     except SourceArgumentIsADirectoryException as e:
         e.print_error()
-    return None
+        return_code = 1
+    return return_code

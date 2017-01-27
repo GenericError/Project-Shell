@@ -3,6 +3,7 @@
 
 def run_command(options, arguments):
     """ Clears the shell """
+    return_code = 0
     if options == []:
         if arguments == []:
             print(chr(27) + "[2J")
@@ -18,3 +19,4 @@ def run_command(options, arguments):
             print(chr(27) + "[2J")
             print("Options", options, "were ignored!")
             print("Arguments", arguments, "were ignored!")
+    return return_code
