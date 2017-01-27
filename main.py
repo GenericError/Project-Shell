@@ -69,11 +69,12 @@ def generate_welcome_message():
 
 def generate_root_warning(executing_command=True, command_name=None):
     generated_message = ""
-    generated_message += "\n"+red_warning_text+" You are running Project Shell as root."
+    generated_message += "\n"+red_warning_text+" You are running Project Shell as root.\n"
     if not executing_command:
         generated_message += "Please exercise extra caution when issuing commands.\n"
     else:
         generated_message += "You entered '"+command_name, "'. Confirm it is correct"
+    return generated_message
 
 # The following dictionary has the list of the commands, and the functions that
 # are called when the command is searched for in the dictionary
