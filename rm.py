@@ -3,6 +3,13 @@
 import os  # Importing this for system operations and directory things
 from shellexceptions import *
 
+MAN_DOC = """rm - remove files
+Usage: rm [-v] file
+
+rm deletes files from existence on the machine.
+Presence of teh -v flag will make the command more verbose.
+If 'file' starts with an asterisk (eg '*.txt'), all files in the directory that end with .txt will be removed recursively.
+If 'file' is the name of a single which which exists in the directory, then only 'file' will be deleted."""
 
 def run_command(options, arguments):
     """ Function which runs the rm command """
