@@ -67,7 +67,14 @@ class SourceArgumentIsADirectoryException(CustomBaseException):
     """ Raise if the source argument is a directory and should not be """
     def __init__(self):
         super().__init__()
-        self.error_message = "The source argumnet can not be a directory."
+        self.error_message = "The source argument can not be a directory."
+
+
+class DestinationArgumentIsADirectoryException(CustomBaseException):
+    """ Raise if the destination argument is a directory and should not be """
+    def __init__(self):
+        super().__init__()
+        self.error_message = "The destination argument can not be a directory."
 
 
 class DirectoryNameNotSuppliedException(CustomBaseException):
