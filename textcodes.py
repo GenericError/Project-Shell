@@ -1,5 +1,10 @@
 """ Text colour and formatting codes for the use of Project Shell """
 
+MAN_DOC = """textcodes - UNIX terminal formatting codes
+Usage: N/A
+
+This file contains UNIX terminal formatting codes for the use of Project Shell."""
+
 class TerminalColours(object):
     """ Class containing the colour codes for the terminal """
     def __init__(self):

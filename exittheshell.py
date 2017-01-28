@@ -2,6 +2,12 @@
 
 import sys
 
+MAN_DOC = """exit - exits the shell
+Usage: exit
+
+Executing this command will return you to the prompt at which the program was launched, or to your desktop environment."""
+
+
 def run_command(options, arguments):
     """ Exits the shell """
     return_code = 0
