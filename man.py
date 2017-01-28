@@ -1,6 +1,12 @@
 import shutil
 import textwrap
 
+MAN_DOC = """man - display manual documentation
+Usage: man [command]
+
+man requires a command to display documentation. Lack of a command argument will result in an error message.
+The documentation is auto discovered from the module of the specified command. Commands should always implement manual information in a format equivalent to other Project Shell commands."""
+
 MAN_ALIASES = {'clear': 'cleartheshell',
                'exit': 'exittheshell',
                'pwd': 'printworking'}

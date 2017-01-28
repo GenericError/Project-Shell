@@ -3,6 +3,12 @@
 import os  # Importing this for directory things
 from shellexceptions import *
 
+MAN_DOC = """mkdir - make a directory
+Usage: mkdir [-v] new_directory
+
+Running mkdir with the -v flag present will make the command verbose.
+A new directory will be created in the current working directory with the name of new_directory.
+If a path to a pre-existing directory precedes new_directory (ie Desktop/new_directory), the new directory will be created in the preceding path under the name of new_directory"""
 
 def run_command(options, arguments):
     """ Function which executes the mkdir command """

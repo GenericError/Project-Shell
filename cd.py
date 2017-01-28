@@ -4,6 +4,13 @@ import argparse
 import getopt
 from shellexceptions import *
 
+MAN_DOC = """cd - change the current working directory
+Usage: cd [directory]
+
+If not supplied with a directory, the current working directory will be changed to the home directory of the current user.
+If a directory is supplied, the current working directory will be changed to the directory supplied.
+The full path of the supplied directory is generated once the command is issued, unless a full path is provided (by supplying the command with a directory beginning with '/' ie. the root directory)."""
+
 def run_command(options, arguments):
     """ Runs the cd command """
     try:

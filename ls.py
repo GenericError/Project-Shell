@@ -4,6 +4,11 @@ import os
 import shutil
 import textwrap
 
+MAN_DOC = """ls - list files and directories
+Usage: ls [directory]
+
+Executing the command with no directory argument will list the files and folders in the current working directory.
+Executing the command with a directory argument will list the files and folders in teh directory specified."""
 
 def run_command(options, arguments):
     """ Function that runs the ls command """

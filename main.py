@@ -1,6 +1,12 @@
 """ The main module for Project Shell """
 # Here are all our imports, most of them being commands
 
+MAN_DOC = """main - the main module
+Usage: N/A
+
+Run this script with 'python3 main.py' to launch Project Shell.
+This command can not be called within Project Shell."""
+
 try:
     from shellexceptions import GenericException, ImportException
     import os, pwd, datetime, platform, getopt, textcodes
