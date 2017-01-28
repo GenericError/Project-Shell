@@ -118,6 +118,8 @@ print(generate_welcome_message())
 if CURRENT_USER == "root":
     print(generate_root_warning(executing_command=False))
 
+return_code = 127
+
 while 1:  # Main loop
     CURRENT_DIRECTORY = os.getcwd()
     in_home = bool(str(os.getcwd()) == str(os.path.expanduser('~')))
@@ -152,6 +154,9 @@ while 1:  # Main loop
         except GenericException as new_e:
             new_e.print_error()
             continue
+    if JUST_COMMAND == '$?':
+        print(return_code)
+        continue
     try:
         try:
             short_options = OPTIONS_DICT[JUST_COMMAND][0]
@@ -172,7 +177,7 @@ while 1:  # Main loop
     for command in COMMAND_DICT:  # For each command in the dictionary
         if command == JUST_COMMAND:  # If the command is equal to the input
             func = COMMAND_DICT[command]
-            func(options, arguments)
+            return_code = func(options, arguments)
             RUN_THIS_LOOP = True  # Yes, we have executed a command this loop
     if not RUN_THIS_LOOP:  # If a command was not executed this loop
         if JUST_COMMAND == "":  # If the user didn't give a command
