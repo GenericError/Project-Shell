@@ -14,7 +14,6 @@ try:
     import rm
     import printworkingdir
     import getopt
-    import sys
     from shellexceptions import GenericException, UnsupportedPlatformException
 except ImportError:  # If any module failed to be imported
     print("Sorry, Project Shell can not run without the required modules!")
@@ -30,7 +29,7 @@ if sys.platform.startswith('linux'):
 if sys.platform.startswith('darwin'):
     supported = True
 
-if supported = False:
+if supported == False:
     try:
         raise UnsupportedPlatformException
     except UnsupportedPlatformException as e:
