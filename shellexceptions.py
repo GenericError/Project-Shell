@@ -112,7 +112,7 @@ class FlagOrArgumentNotGivenException(CustomBaseException):
         super().__init__()
         self.error_message = "One or more required flags or arguments were not given."
 
-class UnsupportedPlatform(CustomBaseException):
+class UnsupportedPlatformException(CustomBaseException):
     """ Raise if the platform being used is unsupported """
     def __init__(self):
         super().__init__()
