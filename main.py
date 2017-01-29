@@ -14,13 +14,29 @@ try:
     import rm
     import printworkingdir
     import getopt
-    from shellexceptions import GenericException
+    import sys
+    from shellexceptions import GenericException, UnsupportedPlatformException
 except ImportError:  # If any module failed to be imported
     print("Sorry, Project Shell can not run without the required modules!")
     print("This might have been a random error, perhaps try running")
     print("Project Shell again to see if it happens twice.")
     exit()  # Tell the user and exit the program
+    
+supported = False
 
+if sys.platform.startswith('linux'):
+    supported = True
+
+if sys.platform.startswith('darwin'):
+    supported = True
+
+if supported = False:
+    try:
+        raise UnsupportedPlatformException
+    except UnsupportedPlatformException as e:
+        e.print_error()
+        sys.exit()
+    
 NEWLINE = "\n"  # Constant for the newline character (\n)
 
 CURRENT_USER = pwd.getpwuid(os.getuid())[0]  # The username of the current user
