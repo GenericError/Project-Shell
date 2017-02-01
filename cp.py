@@ -35,20 +35,23 @@ def run_command(options, arguments):
         elif os.path.isdir(source):  # If the source argument is a directory
             raise SourceArgumentIsADirectoryException
         elif os.path.isfile(source):  # If the source is a file
-            if os.path.exists(destination):  # If the destination exists
-                # TODO: Implement the appropriate actions here
-                raise UnsupportedOperationException("cp")
-            # If the destination does not exist
-            elif not os.path.exists(destination):
-                try:  # Try to do the following
-                    # Copy the source to the destination with metadata
-                    shutil.copy2(source, destination)
-                    if verbose:
-                        print(source, "->", destination)
-                except OSError:  # In case an error occured
+            if not os.path.isdir(destination):
+                if os.path.exists(destination):  # If the destination exists
+                    # TODO: Implement the appropriate actions here
+                    raise UnsupportedOperationException("cp")
+                # If the destination does not exist
+                elif not os.path.exists(destination):
+                    try:  # Try to do the following
+                        # Copy the source to the destination with metadata
+                        shutil.copy2(source, destination)
+                        if verbose:
+                            print(source, "->", destination)
+                    except OSError:  # In case an error occured
+                        raise GenericException
+                else:  # In case something went wrong
                     raise GenericException
-            else:  # In case something went wrong
-                raise GenericException
+            else:
+                raise DestinationArgumentIsADirectoryException
         else:  # In case the user tried to perform another operation
             # TODO: Implement the appropriate actions here
             raise UnsupportedOperationException("cp")
@@ -63,6 +66,9 @@ def run_command(options, arguments):
         e.print_error()
         return_code = 1
     except SourceArgumentIsADirectoryException as e:
+        e.print_error()
+        return_code = 1
+    except DestinationArgumentIsADirectoryException as e:
         e.print_error()
         return_code = 1
     return return_code
