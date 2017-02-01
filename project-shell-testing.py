@@ -16,19 +16,32 @@ class TestCdCommand(unittest.TestCase):
         """ cd /home """
         original_directory = os.getcwd()
         supplied_directory = "/home"
-        cd.run_command([], [supplied_directory])
+        exit_code = cd.run_command([], [supplied_directory])
         directory_after_operation = os.getcwd()
         self.assertEqual(supplied_directory, directory_after_operation,
                          msg="cd did not change the directory")
+        self.assertEqual(exit_code, 0)
 
     def test_blank_directory(self):
         """ cd """
         original_directory = os.getcwd()
-        cd.run_command([], [])
+        exit_code = cd.run_command([], [])
         directory_after_operation = os.getcwd()
         path_wanted = os.path.expanduser('~')
         self.assertEqual(path_wanted, directory_after_operation,
                          msg="cd did not change the directory")
+        self.assertEqual(exit_code, 0)
+
+    def test_change_into_file(self):
+        """ cd project-shell-test-file.txt"""
+        os.chdir("/tmp")
+        test_file_name = 'project-shell-test-cd-into-file.txt'
+        test_file = open(test_file_name,'w')
+        test_file.write('testing')
+        test_file.close()
+        exit_code = cd.run_command([], [test_file_name])
+        self.assertEqual(exit_code, 2)
+
 
 
 class TestClearCommand(unittest.TestCase):
@@ -94,5 +107,4 @@ class TestCpCommand(unittest.TestCase):
         new_file.close()
 
 if __name__ == '__main__':
-    #unittest.main()
-    print("Do not use the script at this time; awaiting upgrade for newer versions")
+    unittest.main()

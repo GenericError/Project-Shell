@@ -28,12 +28,9 @@ def run_command(options, arguments):
     except GenericException as e:
         e.print_error()
         return_code = 1
-    except BlankDirectoryException as e:
-        e.print_error()
-        return_code = 1
     except NotADirectoryException as e:
         e.print_error()
-        return_code = 1
+        return_code = 2
     if os.path.isdir(directory_to_go):  # If it is a valid directory
         os.chdir(directory_to_go)  # Change the current directory
     return return_code  # Go back to the prompt
