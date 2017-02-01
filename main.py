@@ -1,6 +1,12 @@
 """ The main module for Project Shell """
 # Here are all our imports, most of them being commands
 
+MAN_DOC = """main - the main module
+Usage: N/A
+
+Run this script with 'python3 main.py' to launch Project Shell.
+This command can not be called within Project Shell."""
+
 try:
     from shellexceptions import GenericException, ImportException
     import os, pwd, datetime, platform, getopt, textcodes
@@ -69,11 +75,12 @@ def generate_welcome_message():
 
 def generate_root_warning(executing_command=True, command_name=None):
     generated_message = ""
-    generated_message += "\n"+red_warning_text+" You are running Project Shell as root."
+    generated_message += "\n"+red_warning_text+" You are running Project Shell as root.\n"
     if not executing_command:
         generated_message += "Please exercise extra caution when issuing commands.\n"
     else:
         generated_message += "You entered '"+command_name, "'. Confirm it is correct"
+    return generated_message
 
 # The following dictionary has the list of the commands, and the functions that
 # are called when the command is searched for in the dictionary
@@ -111,6 +118,8 @@ print(generate_welcome_message())
 if CURRENT_USER == "root":
     print(generate_root_warning(executing_command=False))
 
+return_code = 127
+
 while 1:  # Main loop
     CURRENT_DIRECTORY = os.getcwd()
     in_home = bool(str(os.getcwd()) == str(os.path.expanduser('~')))
@@ -145,6 +154,9 @@ while 1:  # Main loop
         except GenericException as new_e:
             new_e.print_error()
             continue
+    if JUST_COMMAND == '$?':
+        print(return_code)
+        continue
     try:
         try:
             short_options = OPTIONS_DICT[JUST_COMMAND][0]
@@ -165,7 +177,7 @@ while 1:  # Main loop
     for command in COMMAND_DICT:  # For each command in the dictionary
         if command == JUST_COMMAND:  # If the command is equal to the input
             func = COMMAND_DICT[command]
-            func(options, arguments)
+            return_code = func(options, arguments)
             RUN_THIS_LOOP = True  # Yes, we have executed a command this loop
     if not RUN_THIS_LOOP:  # If a command was not executed this loop
         if JUST_COMMAND == "":  # If the user didn't give a command

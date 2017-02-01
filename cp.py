@@ -4,9 +4,17 @@ import shutil  # Import this for copyying files with metadata
 import os  # Import this for system things
 from shellexceptions import *
 
+MAN_DOC = """cp - copy files
+Usage: cp [-v] source_file destination_file
+
+cp copies the source_file to the destination_file
+cp can only copy files; folders are not supported
+
+If the -v flag is present, cp will be verbose"""
 
 def run_command(options, arguments):
     """ Function that runs the acutal command based on the user's input """
+    return_code = 0
     try:
         source = os.path.abspath(arguments[0])
         destination = os.path.abspath(arguments[1])
@@ -15,7 +23,8 @@ def run_command(options, arguments):
             raise FlagOrArgumentNotGivenException
         except FlagOrArgumentNotGivenException as e:
             e.print_error()
-            return None
+            return_code = 1
+            return return_code
     verbose = False
     for option in options:
         if option[0] in "-v":
@@ -46,15 +55,20 @@ def run_command(options, arguments):
         else:  # In case the user tried to perform another operation
             # TODO: Implement the appropriate actions here
             raise UnsupportedOperationException("cp")
-        return None
+        return return_code
     except UnsupportedOperationException as e:
         e.print_error()
+        return_code = 1
     except GenericException as e:
         e.print_error()
+        return_code = 1
     except SourceDestinationAreEqualException as e:
         e.print_error()
+        return_code = 1
     except SourceArgumentIsADirectoryException as e:
         e.print_error()
+        return_code = 1
     except DestinationArgumentIsADirectoryException as e:
         e.print_error()
-    return None
+        return_code = 1
+    return return_code

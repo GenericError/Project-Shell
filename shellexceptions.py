@@ -1,5 +1,9 @@
 """ All the exceptions for Project Shell """
 
+MAN_DOC = """shellexceptions - custom exception classes
+Usage: N/A
+
+This file contains custom exception classes for the use of Project Shell."""
 
 def construct_error_message(supplied_information="", error_string="", default_error_string=""):
     if "$VAR$" in error_string:
