@@ -1,0 +1,8 @@
+title: Project Shell
+description: A Python Bash Replacement
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-minimal
+
+gems:
+  - jekyll-mentions
