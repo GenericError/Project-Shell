@@ -58,17 +58,17 @@ def run_command(options, arguments):
         return return_code
     except UnsupportedOperationException as e:
         e.print_error()
-        return_code = 1
+        return_code = 2
     except GenericException as e:
         e.print_error()
-        return_code = 1
+        return_code = 3
     except SourceDestinationAreEqualException as e:
         e.print_error()
-        return_code = 1
+        return_code = 4
     except SourceArgumentIsADirectoryException as e:
         e.print_error()
-        return_code = 1
+        return_code = 5
     except DestinationArgumentIsADirectoryException as e:
         e.print_error()
-        return_code = 1
+        return_code = 6
     return return_code

@@ -9,6 +9,7 @@ import os
 import cd
 import cp
 
+
 class TestCdCommand(unittest.TestCase):
     """ This module tests the cd command """
 
@@ -80,30 +81,36 @@ class TestCpCommand(unittest.TestCase):
 
     def test_no_arguments(self):
         """ cp """
-        cp.run_command([], [])
+        exit_code = cp.run_command([], [])
+        self.assertEqual(exit_code, 1)
 
     def test_missing_argument(self):
         """ cp foobar """
-        cp.run_command([], ['foobar'])
+        exit_code = cp.run_command([], ['foobar'])
+        self.assertEqual(exit_code, 1)
 
     def test_equal_source_and_directory(self):
         """ cp foobar foobar """
-        cp.run_command([], ['foobar', 'foobar'])
+        exit_code = cp.run_command([], ['foobar', 'foobar'])
+        self.assertEqual(exit_code, 4)
 
     def test_source_is_a_directory(self):
         """ cp /home foobar """
-        cp.run_command([], ['/home', 'foobar'])
+        exit_code = cp.run_command([], ['/home', 'foobar'])
+        self.assertEqual(exit_code, 5)
 
     def test_destination_is_a_directory(self):
         """ cp /tmp/project-shell-cp.testfile /tmp """
-        cp.run_command([], [self.TestFile, "/tmp/project-shell-cp"])
+        exit_code = cp.run_command([], [self.TestFile, "/tmp/project-shell-cp"])
+        self.assertEqual(exit_code, 6)
 
     def test_copy_file(self):
         """ cp /tmp/project-shell-cp.testfile /tmp/project-shell-cp/project-shell-cp.testfile """
-        cp.run_command([], [self.TestFile, "/tmp/project-shell-cp/project-shell-cp.testfile"])
+        exit_code = cp.run_command([], [self.TestFile, "/tmp/project-shell-cp/project-shell-cp.testfile"])
         new_file = open(file="/tmp/project-shell-cp/project-shell-cp.testfile", mode="r")
         new_file_contents = new_file.readlines()[0]
         self.assertEqual(new_file_contents, "This is just a test")
+        self.assertEqual(exit_code, 0)
         new_file.close()
 
 if __name__ == '__main__':
