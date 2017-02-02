@@ -1,4 +1,5 @@
 language: python
 python:
   - "3.5"
+env: COLUMNS=80
 script: python3 project-shell-testing.py
