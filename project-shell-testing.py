@@ -113,5 +113,14 @@ class TestCpCommand(unittest.TestCase):
         self.assertEqual(exit_code, 0)
         new_file.close()
 
+
+class TestExitCommand(unittest.TestCase):
+    """ This module doesn't really 'test' anything -
+    in fact it will only fail if there is a syntax error """
+
+    def test_import(self):
+        """ Tests the import of the module """
+        import exittheshell
+
 if __name__ == '__main__':
     unittest.main()
