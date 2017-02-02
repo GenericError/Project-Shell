@@ -34,8 +34,8 @@ def run_command(options, arguments):
         new_e.print_error()
     except GenericException as e:
         e.print_error()
-        return_code = 1
+        return_code = 2
     except DirectoryNameNotSuppliedException as e:
         e.print_error()
-        return_code = 1
+        return_code = 3
     return return_code
