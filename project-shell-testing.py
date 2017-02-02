@@ -8,6 +8,7 @@ except ImportError:
 import os
 import cd
 import cp
+import ls
 
 
 class TestCdCommand(unittest.TestCase):
@@ -121,6 +122,20 @@ class TestExitCommand(unittest.TestCase):
     def test_import(self):
         """ Tests the import of the module """
         import exittheshell
+
+
+class TestLsCommand(unittest.TestCase):
+    """ This module tests the ls command """
+
+    def test_supplied_directory(self):
+        """ ls /home """
+        exit_code = ls.run_command([], ["/home"])
+        self.assertEqual(exit_code, 0)
+
+    def test_blank_directory(self):
+        """ ls """
+        exit_code = ls.run_command([], [])
+        self.assertEqual(exit_code, 0)
 
 if __name__ == '__main__':
     unittest.main()
