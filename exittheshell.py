@@ -29,4 +29,4 @@ def run_command(options, arguments):
             print("Options", options, "were ignored!")
             print("Arguments", arguments, "were ignored!")
             print("Exiting...")
-            sys.exit()return_code
+            sys.exit(return_code)
