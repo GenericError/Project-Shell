@@ -43,14 +43,14 @@ def run_command(options, arguments):
         the_import = __import__(the_command, globals(), locals(), [], 0)
     except:
         print("Sorry, that command could not be found")
-        return_code = 1
+        return_code = 2
         return return_code
 
     try:
         help_text = the_import.MAN_DOC
     except:
         print("No manual documentation was found for this command")
-        return_code = 1
+        return_code = 3
         return return_code
 
     for line in help_text.split('\n'):

@@ -149,7 +149,7 @@ class TestManCommand(unittest.TestCase):
 
     def test_show_help(self):
         """ man -h """
-        exit_code = man.run_command(['-h'], [])
+        exit_code = man.run_command([], ['-h'])
         self.assertEqual(exit_code, 0)
 
     def test_real_command(self):
