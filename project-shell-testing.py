@@ -15,6 +15,10 @@ import man
 import mkdir
 
 
+CURRENT_PYTHON_VERSION = sys.version_info
+REQUIRED_PYTHON_VERSION = (3, 3)
+
+
 class TestCdCommand(unittest.TestCase):
     """ This class tests the cd command """
 
@@ -212,4 +216,7 @@ class TestMkdirCommand(unittest.TestCase):
         self.assertEqual(exit_code, 2)
 
 if __name__ == '__main__':
+    if CURRENT_PYTHON_VERSION < REQUIRED_PYTHON_VERSION:
+        print("This version of Python is too old. You require Python 3.3+")
+        exit()
     unittest.main()

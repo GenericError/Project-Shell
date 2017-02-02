@@ -2,7 +2,7 @@
 ## A Python Bash Replacement
 
 ### What is Project Shell?
-Project Shell is a purely Python bash replacement designed for everyday use. Currently you need to run it from the command line, but we will be changing this hopefully in the near future.
+Project Shell is a purely Python bash replacement for Python 3.3+ designed for everyday use. Currently you need to run it from the command line, but we will be changing this hopefully in the near future.
 
 ### Why Project Shell?
 
