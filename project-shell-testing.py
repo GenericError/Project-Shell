@@ -9,10 +9,11 @@ import os
 import cd
 import cp
 import ls
+import man
 
 
 class TestCdCommand(unittest.TestCase):
-    """ This module tests the cd command """
+    """ This class tests the cd command """
 
     def test_supplied_directory(self):
         """ cd /home """
@@ -56,7 +57,7 @@ class TestClearCommand(unittest.TestCase):
 
 
 class TestCpCommand(unittest.TestCase):
-    """ This module tests the cp command
+    """ This class tests the cp command
     A most of these just check that the code handles the exception properly"""
 
     def setUp(self):
@@ -125,7 +126,7 @@ class TestExitCommand(unittest.TestCase):
 
 
 class TestLsCommand(unittest.TestCase):
-    """ This module tests the ls command """
+    """ This class tests the ls command """
 
     def test_supplied_directory(self):
         """ ls /home """
@@ -135,6 +136,40 @@ class TestLsCommand(unittest.TestCase):
     def test_blank_directory(self):
         """ ls """
         exit_code = ls.run_command([], [])
+        self.assertEqual(exit_code, 0)
+
+
+class TestManCommand(unittest.TestCase):
+    """ This class tests the man command """
+
+    def test_no_input(self):
+        """ man """
+        exit_code = man.run_command([], [])
+        self.assertEqual(exit_code, 1)
+
+    def test_show_help(self):
+        """ man -h """
+        exit_code = man.run_command(['-h'], [])
+        self.assertEqual(exit_code, 0)
+
+    def test_real_command(self):
+        """ man cd """
+        exit_code = man.run_command([], ['cd'])
+        self.assertEqual(exit_code, 0)
+
+    def test_fake_module(self):
+        """ man doesnotexist """
+        exit_code = man.run_command([], ['doesnotexist'])
+        self.assertEqual(exit_code, 2)
+
+    def test_no_documentation(self):
+        """ man blank """
+        exit_code = man.run_command([], ['blank'])
+        self.assertEqual(exit_code, 3)
+
+    def test_command_with_alias(self):
+        """ man clear """
+        exit_code = man.run_command([], ['exit'])
         self.assertEqual(exit_code, 0)
 
 if __name__ == '__main__':
