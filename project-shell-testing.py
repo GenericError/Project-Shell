@@ -6,10 +6,13 @@ except ImportError:
     print("This script requires the unittest module. Please install it.")
 
 import os
+import glob
+
 import cd
 import cp
 import ls
 import man
+import mkdir
 
 
 class TestCdCommand(unittest.TestCase):
@@ -171,6 +174,36 @@ class TestManCommand(unittest.TestCase):
         """ man clear """
         exit_code = man.run_command([], ['exit'])
         self.assertEqual(exit_code, 0)
+
+class TestMkdirCommand(unittest.TestCase):
+    """ This class tests the mkdir command """
+
+    def test_create_a_directory(self):
+        """ mkdir /tmp/project-shell-mkdir-001 """
+        os.rmdir("/tmp/project-shell-mkdir-001")
+        exit_code = mkdir.run_command([], ['/tmp/project-shell-mkdir-001'])
+        self.assertEqual(exit_code, 0)
+
+    def test_create_a_directory_with_verbose(self):
+        """ mkdir -v /tmp/project-shell-mkdir-002 """
+        os.rmdir("/tmp/project-shell-mkdir-002")
+        exit_code = mkdir.run_command(['-v'], ['/tmp/project-shell-mkdir-002'])
+        self.assertEqual(exit_code, 0)
+
+    def test_no_input(self):
+        """ mkdir """
+        exit_code = mkdir.run_command([], [])
+        self.assertEqual(exit_code, 1)
+
+    def test_existing_directory(self):
+        """ man /tmp/project-shell-mkdir-already-exists """
+        try:
+            os.mkdir("/tmp/project-shell-mkdir-already-exists")
+        except:
+            # Directory is already there
+            pass
+        exit_code = mkdir.run_command([], ['/tmp/project-shell-mkdir-already-exists'])
+        self.assertEqual(exit_code, 2)
 
 if __name__ == '__main__':
     unittest.main()
