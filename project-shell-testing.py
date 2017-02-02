@@ -180,13 +180,19 @@ class TestMkdirCommand(unittest.TestCase):
 
     def test_create_a_directory(self):
         """ mkdir /tmp/project-shell-mkdir-001 """
-        os.rmdir("/tmp/project-shell-mkdir-001")
+        try:
+            os.rmdir("/tmp/project-shell-mkdir-001")
+        except:
+            pass
         exit_code = mkdir.run_command([], ['/tmp/project-shell-mkdir-001'])
         self.assertEqual(exit_code, 0)
 
     def test_create_a_directory_with_verbose(self):
         """ mkdir -v /tmp/project-shell-mkdir-002 """
-        os.rmdir("/tmp/project-shell-mkdir-002")
+        try:
+            os.rmdir("/tmp/project-shell-mkdir-002")
+        except:
+            pass
         exit_code = mkdir.run_command(['-v'], ['/tmp/project-shell-mkdir-002'])
         self.assertEqual(exit_code, 0)
 
