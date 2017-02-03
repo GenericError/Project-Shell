@@ -1,7 +1,6 @@
 sudo: required
 os:
   - linux
-  - osx
 install: true
 language: python
 python:

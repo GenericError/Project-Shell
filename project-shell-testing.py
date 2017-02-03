@@ -6,7 +6,6 @@ except ImportError:
     print("This script requires the unittest module. Please install it.")
 
 import os
-import glob
 import sys
 
 import cd
@@ -25,7 +24,6 @@ class TestCdCommand(unittest.TestCase):
 
     def test_supplied_directory(self):
         """ cd /home """
-        original_directory = os.getcwd()
         supplied_directory = "/home"
         exit_code = cd.run_command([], [supplied_directory])
         directory_after_operation = os.getcwd()
@@ -35,7 +33,6 @@ class TestCdCommand(unittest.TestCase):
 
     def test_blank_directory(self):
         """ cd """
-        original_directory = os.getcwd()
         exit_code = cd.run_command([], [])
         directory_after_operation = os.getcwd()
         path_wanted = os.path.expanduser('~')
@@ -47,12 +44,11 @@ class TestCdCommand(unittest.TestCase):
         """ cd project-shell-test-file.txt"""
         os.chdir("/tmp")
         test_file_name = 'project-shell-test-cd-into-file.txt'
-        test_file = open(test_file_name,'w')
+        test_file = open(test_file_name, 'w')
         test_file.write('testing')
         test_file.close()
         exit_code = cd.run_command([], [test_file_name])
         self.assertEqual(exit_code, 2)
-
 
 
 class TestClearCommand(unittest.TestCase):
@@ -70,24 +66,22 @@ class TestCpCommand(unittest.TestCase):
 
     def setUp(self):
         """ Sets up some things for the tests """
-        self.TestFile = "/tmp/project-shell-cp.testfile"
+        self.testFile = "/tmp/project-shell-cp.testfile"
         try:
             os.remove("/tmp/project-shell-cp/project-shell-cp.testfile")
-            os.remove(self.TestFile)
+            os.remove(self.testFile)
         except:
             pass
-        self.TestFileObject = open(file=self.TestFile, mode='w')
-        self.ThingToWrite = "This is just a test"
-        self.TestFileObject.write(self.ThingToWrite)
-        self.TestFileObject.close()
+        self.testFileObject = open(file=self.testFile, mode='w')
+        self.thingToWrite = "This is just a test"
+        self.testFileObject.write(self.thingToWrite)
+        self.testFileObject.close()
         if not os.path.exists("/tmp/project-shell-cp"):
             os.mkdir("/tmp/project-shell-cp")
 
-
     def tearDown(self):
         """ Destroys things from previous tests """
-        self.TestFileObject.close()
-
+        self.testFileObject.close()
 
     def test_no_arguments(self):
         """ cp """
@@ -111,12 +105,12 @@ class TestCpCommand(unittest.TestCase):
 
     def test_destination_is_a_directory(self):
         """ cp /tmp/project-shell-cp.testfile /tmp """
-        exit_code = cp.run_command([], [self.TestFile, "/tmp/project-shell-cp"])
+        exit_code = cp.run_command([], [self.testFile, "/tmp/project-shell-cp"])
         self.assertEqual(exit_code, 6)
 
     def test_copy_file(self):
         """ cp /tmp/project-shell-cp.testfile /tmp/project-shell-cp/project-shell-cp.testfile """
-        exit_code = cp.run_command([], [self.TestFile, "/tmp/project-shell-cp/project-shell-cp.testfile"])
+        exit_code = cp.run_command([], [self.testFile, "/tmp/project-shell-cp/project-shell-cp.testfile"])
         new_file = open(file="/tmp/project-shell-cp/project-shell-cp.testfile", mode="r")
         new_file_contents = new_file.readlines()[0]
         self.assertEqual(new_file_contents, "This is just a test")
@@ -179,6 +173,7 @@ class TestManCommand(unittest.TestCase):
         """ man clear """
         exit_code = man.run_command([], ['exit'])
         self.assertEqual(exit_code, 0)
+
 
 class TestMkdirCommand(unittest.TestCase):
     """ This class tests the mkdir command """
