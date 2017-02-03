@@ -7,6 +7,7 @@ except ImportError:
 
 import os
 import glob
+import sys
 
 import cd
 import cp
