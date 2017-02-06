@@ -41,14 +41,14 @@ def run_command(options, arguments):
                 raise InvalidOperationForDirectoriesException
             except InvalidOperationForDirectoriesException as new_e:
                 new_e.print_error()
-                return_code = 1
+                return_code = 2
                 return return_code
         except Exception as e:  # If another error occured
             try:
                 raise GenericException
             except GenericException as new_e:
                 new_e.print_error()
-                return_code = 1
+                return_code = 3
                 return return_code
     # If the user is trying to delete all files with a certain extension
     else:
@@ -73,6 +73,6 @@ def run_command(options, arguments):
                         raise FileCouldNotBeDeletedException(thing)
                     except FileCouldNotBeDeletedException as new_e:
                         new_e.print_error()
-                        return_code = 1
+                        return_code = 4
                         return return_code
     return return_code  # Go back to the prompt

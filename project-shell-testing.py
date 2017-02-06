@@ -14,6 +14,7 @@ import ls
 import man
 import mkdir
 import printworkingdir
+import rm
 
 
 CURRENT_PYTHON_VERSION = sys.version_info
@@ -63,7 +64,7 @@ class TestClearCommand(unittest.TestCase):
 
 class TestCpCommand(unittest.TestCase):
     """ This class tests the cp command
-    A most of these just check that the code handles the exception properly"""
+    Most of these just check that the code handles the exception properly"""
 
     def setUp(self):
         """ Sets up some things for the tests """
@@ -219,6 +220,50 @@ class TestPrintWorkingDirectoryCommand(unittest.TestCase):
     def test_run_command(self):
         exit_code = printworkingdir.run_command([], [])
         self.assertEqual(exit_code, 0)
+
+
+class TestRmCommand(unittest.TestCase):
+    """ This class tests the rm command
+    Most of these just check that the code handles the exception properly"""
+
+    def setUp(self):
+        """ Sets up some things for the tests """
+        self.testFile = "/tmp/project-shell-rm/project-shell-rm.testfile"
+        try:
+            os.remove("/tmp/project-shell-rm/project-shell-rm.testfile")
+            os.rmdir("/tmp/project-shell-rm")
+            os.remove(self.testFile)
+        except:
+            pass
+        os.mkdir("/tmp/project-shell-rm")
+        self.testFileObject = open(file=self.testFile, mode='w')
+        self.thingToWrite = "This is just a test"
+        self.testFileObject.write(self.thingToWrite)
+        self.testFileObject.close()
+
+    def tearDown(self):
+        """ Destroys things from previous tests """
+        self.testFileObject.close()
+
+    def test_no_arguments(self):
+        """ rm """
+        exit_code = rm.run_command([], [])
+        self.assertEqual(exit_code, 1)
+
+    def test_delete_lots_of_files(self):
+        """ rm  *.txt"""
+        os.chdir("/tmp/project-shell-rm")
+        for i in range(1, 10):
+            the_file = open(str(i)+".txt", "w")
+            the_file.write(str(i))
+            the_file.close()
+        exit_code = rm.run_command([], ['*.txt'])
+        self.assertEqual(exit_code, 0)
+
+    def test_delete_directory(self):
+        """ rm /tmp/project-shell-rm """
+        exit_code = rm.run_command([], ['/tmp/project-shell-rm'])
+        self.assertEqual(exit_code, 2)
 
 
 if __name__ == '__main__':
