@@ -13,6 +13,6 @@ python:
   - "3.7-dev"
   - "nightly"
 env: COLUMNS=80
-script: python3 project-shell-testing.py
+script: python3 project-shell-testing.py -v
 git:
   depth: 3
