@@ -13,6 +13,7 @@ import cp
 import ls
 import man
 import mkdir
+import printworkingdir
 
 
 CURRENT_PYTHON_VERSION = sys.version_info
@@ -210,6 +211,15 @@ class TestMkdirCommand(unittest.TestCase):
             pass
         exit_code = mkdir.run_command([], ['/tmp/project-shell-mkdir-already-exists'])
         self.assertEqual(exit_code, 2)
+
+
+class TestPrintWorkingDirectoryCommand(unittest.TestCase):
+    """ This class tests the pwd command """
+
+    def test_run_command(self):
+        exit_code = printworkingdir.run_command([], [])
+        self.assertEqual(exit_code, 0)
+
 
 if __name__ == '__main__':
     if CURRENT_PYTHON_VERSION < REQUIRED_PYTHON_VERSION:
