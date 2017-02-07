@@ -50,7 +50,7 @@ class GenericException(CustomBaseException):
     """ Raise in the case of a generic exception """
     def __init__(self):
         super().__init__()
-        self.error_message = "Sorry, an error occured."
+        self.error_message = "Sorry, an error occurred."
 
 
 class UnsupportedOperationException(CustomBaseException):
