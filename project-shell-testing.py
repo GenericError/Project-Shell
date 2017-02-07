@@ -15,6 +15,7 @@ import man
 import mkdir
 import printworkingdir
 import rm
+import rmdir
 
 
 CURRENT_PYTHON_VERSION = sys.version_info
@@ -264,6 +265,47 @@ class TestRmCommand(unittest.TestCase):
         """ rm /tmp/project-shell-rm """
         exit_code = rm.run_command([], ['/tmp/project-shell-rm'])
         self.assertEqual(exit_code, 2)
+
+
+class TestRmdirCommand(unittest.TestCase):
+    """ This class tests the rmdir command
+    Most of these just check that the code handles the exception properly"""
+
+    def test_no_arguments(self):
+        """ rmdir """
+        exit_code = rmdir.run_command([], [])
+        self.assertEqual(exit_code, 1)
+
+    def test_delete_an_empty_folder(self):
+        """ rmdir project-shell-rmdir-empty"""
+        os.chdir("/tmp/")
+        try:
+            os.rmdir("/tmp/project-shell-rmdir-empty")
+        except:
+            pass
+        os.mkdir("/tmp/project-shell-rmdir-empty")
+        exit_code = rmdir.run_command([], ['project-shell-rmdir-empty'])
+        self.assertEqual(exit_code, 0)
+
+    def test_delete_full_folder(self):
+        """ rmdir project-shell-rmdir-full """
+        os.chdir("/tmp/")
+        try:
+            os.rmdir("/tmp/project-shell-rmdir-full")
+        except:
+            pass
+        os.mkdir("/tmp/project-shell-rmdir-full")
+        os.chdir("/tmp/project-shell-rmdir-full")
+        for i in range(1, 10):
+            the_file = open(str(i)+".txt", "w")
+            the_file.write(str(i))
+            the_file.close()
+        os.chdir("/tmp/")
+        exit_code = rmdir.run_command([], ['project-shell-rmdir-full'])
+        self.assertEqual(exit_code, 2)
+        os.chdir("/tmp/project-shell-rmdir-full")
+        for i in range(1, 10):
+            os.remove(str(i)+".txt")
 
 
 if __name__ == '__main__':
