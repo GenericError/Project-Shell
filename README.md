@@ -4,6 +4,8 @@
 ### What is Project Shell?
 Project Shell is a purely Python bash replacement for Python 3.3+ designed for everyday use. Currently you need to run it from the command line, but we will be changing this hopefully in the near future.
 
+Unix, macOS and similar operating systems are the only ones supported at this time.
+
 ### Why Project Shell?
 
 1. It's easy to contribute! You can easily add whatever feature that you want just by forking the repository and opening a pull request. Wait for the review to be accepted and you can use your new feature in the next release.
@@ -19,7 +21,7 @@ Open an issue in the issue tracker and be sure to include as many details as you
 Because Project Shell is open source software, we have released it under the MIT license. In plain english, this means that you can do whatever you want with the software, as long as you don't hold us liable and keep a copy of the license in any distribution of the software and for any derivatives. Remember, none of use are legal advisers so don't take our word - read the LICENSE file and talk to an attorney if you're really worried
 
 ### How do I start using it?
-Simply download the repository, `cd` into it using any terminal and run `python3 main.py`. Easy! If you want to use it more often, you may want to create a bash script on your desktop. This would run the `main.py` script from any directory, allowing you to hide the code away.  Keep in mind that the following script will only work on *nix like systems.
+Simply download the repository, `cd` into it using any terminal and run `python3 main.py`. Easy! If you want to use it more often, you may want to create a bash script on your desktop. This would run the `main.py` script from any directory, allowing you to hide the code away.
 
 * Firstly, create a script and include the following code:
 ```
