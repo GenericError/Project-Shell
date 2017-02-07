@@ -27,11 +27,8 @@ def run_command(options, arguments):
             raise DirectoryNotEmptyException
         except DirectoryNotEmptyException as new_e:
             new_e.print_error()
-            return_code = 1
-    except DirectoryNotEmptyException as e:
-        e.print_error()
-        return_code = 1
+            return_code = 2
     except Exception as e:
         print("Hmmm, something went wrong?")
-        return_code = 1
+        return_code = 3
     return return_code
