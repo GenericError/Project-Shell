@@ -4,8 +4,16 @@ import argparse
 import getopt
 from shellexceptions import *
 
+MAN_DOC = """cd - change the current working directory
+Usage: cd [directory]
+
+If not supplied with a directory, the current working directory will be changed to the home directory of the current user.
+If a directory is supplied, the current working directory will be changed to the directory supplied.
+The full path of the supplied directory is generated once the command is issued, unless a full path is provided (by supplying the command with a directory beginning with '/' ie. the root directory)."""
+
 def run_command(options, arguments):
     """ Runs the cd command """
+    return_code = 0
     try:
         new_directory = arguments[0]
     except Exception:
@@ -19,10 +27,10 @@ def run_command(options, arguments):
             raise NotADirectoryException(new_directory)
     except GenericException as e:
         e.print_error()
-    except BlankDirectoryException as e:
-        e.print_error()
+        return_code = 1
     except NotADirectoryException as e:
         e.print_error()
+        return_code = 2
     if os.path.isdir(directory_to_go):  # If it is a valid directory
         os.chdir(directory_to_go)  # Change the current directory
-    return None  # Go back to the prompt
+    return return_code  # Go back to the prompt

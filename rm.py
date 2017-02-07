@@ -3,9 +3,17 @@
 import os  # Importing this for system operations and directory things
 from shellexceptions import *
 
+MAN_DOC = """rm - remove files
+Usage: rm [-v] file
+
+rm deletes files from existence on the machine.
+Presence of teh -v flag will make the command more verbose.
+If 'file' starts with an asterisk (eg '*.txt'), all files in the directory that end with .txt will be removed recursively.
+If 'file' is the name of a single which which exists in the directory, then only 'file' will be deleted."""
 
 def run_command(options, arguments):
     """ Function which runs the rm command """
+    return_code = 0
     try:
         delete_query = arguments[0]
     except:
@@ -13,7 +21,8 @@ def run_command(options, arguments):
             raise FlagOrArgumentNotGivenException
         except FlagOrArgumentNotGivenException as e:
             e.print_error()
-            return None
+            return_code = 1
+            return return_code
     verbose = False
     for option in options:
         if option[0] in "-v":
@@ -32,13 +41,15 @@ def run_command(options, arguments):
                 raise InvalidOperationForDirectoriesException
             except InvalidOperationForDirectoriesException as new_e:
                 new_e.print_error()
-                return None
+                return_code = 2
+                return return_code
         except Exception as e:  # If another error occured
             try:
                 raise GenericException
             except GenericException as new_e:
                 new_e.print_error()
-                return None
+                return_code = 3
+                return return_code
     # If the user is trying to delete all files with a certain extension
     else:
         # Create a variable to hold the name of the extension
@@ -62,5 +73,6 @@ def run_command(options, arguments):
                         raise FileCouldNotBeDeletedException(thing)
                     except FileCouldNotBeDeletedException as new_e:
                         new_e.print_error()
-                        return None
-    return None  # Go back to the prompt
+                        return_code = 4
+                        return return_code
+    return return_code  # Go back to the prompt

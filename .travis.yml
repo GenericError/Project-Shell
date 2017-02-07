@@ -1,0 +1,18 @@
+sudo: required
+os:
+  - linux
+install: true
+language: python
+python:
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.5-dev"
+  - "3.6"
+  - "3.6-dev"
+  - "3.7-dev"
+  - "nightly"
+env: COLUMNS=80
+script: python3 project-shell-testing.py -v
+git:
+  depth: 3

@@ -4,9 +4,15 @@ import os
 import shutil
 import textwrap
 
+MAN_DOC = """ls - list files and directories
+Usage: ls [directory]
+
+Executing the command with no directory argument will list the files and folders in the current working directory.
+Executing the command with a directory argument will list the files and folders in the directory specified."""
 
 def run_command(options, arguments):
     """ Function that runs the ls command """
+    return_code = 0
     try:
         dir_to_scan = arguments[0]
     except:
@@ -21,4 +27,4 @@ def run_command(options, arguments):
         done_first_thing = True
     lines = textwrap.fill(text=constructed_string, width=terminal_width)
     print(lines)
-    return None
+    return return_code

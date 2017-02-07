@@ -1,5 +1,9 @@
 """ All the exceptions for Project Shell """
 
+MAN_DOC = """shellexceptions - custom exception classes
+Usage: N/A
+
+This file contains custom exception classes for the use of Project Shell."""
 
 def construct_error_message(supplied_information="", error_string="", default_error_string=""):
     if "$VAR$" in error_string:
@@ -67,7 +71,14 @@ class SourceArgumentIsADirectoryException(CustomBaseException):
     """ Raise if the source argument is a directory and should not be """
     def __init__(self):
         super().__init__()
-        self.error_message = "The source argumnet can not be a directory."
+        self.error_message = "The source argument can not be a directory."
+
+
+class DestinationArgumentIsADirectoryException(CustomBaseException):
+    """ Raise if the destination argument is a directory and should not be """
+    def __init__(self):
+        super().__init__()
+        self.error_message = "The destination argument can not be a directory."
 
 
 class DirectoryNameNotSuppliedException(CustomBaseException):
@@ -112,8 +123,18 @@ class FlagOrArgumentNotGivenException(CustomBaseException):
         super().__init__()
         self.error_message = "One or more required flags or arguments were not given."
 
+
+
+class ImportException(CustomBaseException):
+    """ Raise if a module ould not be imported successfully """
+    def __init__(self):
+        super().__init__()
+        self.error_message = "One or more modules could not be imported"
+
+   
 class UnsupportedPlatformException(CustomBaseException):
     """ Raise if the platform being used is unsupported """
     def __init__(self):
         super().__init__()
         self.error_message = "The platform you are using is unsupported."
+

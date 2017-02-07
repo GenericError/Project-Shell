@@ -1,48 +1,60 @@
 """ The main module for Project Shell """
 # Here are all our imports, most of them being commands
+
+MAN_DOC = """main - the main module
+Usage: N/A
+
+Run this script with 'python3 main.py' to launch Project Shell.
+This command can not be called within Project Shell."""
+
 try:
-    import sys
-    import os
-    import pwd
-    import datetime
-    import platform
-    import ls
-    import cd
-    import mkdir
-    import rmdir
-    import cp
-    import rm
-    import printworkingdir
-    import getopt
-    from shellexceptions import GenericException, UnsupportedPlatformException
-except ImportError:  # If any module failed to be imported
-    print("Sorry, Project Shell can not run without the required modules!")
-    print("This might have been a random error, perhaps try running")
-    print("Project Shell again to see if it happens twice.")
-    exit()  # Tell the user and exit the program
-    
-supported = False
-
-if sys.platform.startswith('linux'):
-    supported = True
-
-if sys.platform.startswith('darwin'):
-    supported = True
-
-if supported == False:
+    from shellexceptions import GenericException, ImportException
+    import os, pwd, datetime, platform, getopt, textcodes
+    import ls, cd, mkdir, rmdir, cp, rm, printworkingdir
+    import exittheshell, cleartheshell
+    import man
+except ImportError as e:  # If any module failed to be imported
     try:
-        raise UnsupportedPlatformException
-    except UnsupportedPlatformException as e:
-        e.print_error()
-        sys.exit()
-    
+        try:
+            raise ImportException
+        except ImportException as new_e:
+            new_e.print_error()
+            extra_info_q = input("Display extra debug info? [Y/n] > ")
+            if extra_info_q.lower().startswith("y"):
+                print("\n[BEGIN]\tINFO")
+                print("\n[INFO]\t"+str(e))
+                print("\n[END]\tINFO")
+                input("\nPress enter to exit Project Shell ")
+                exit()
+            else:
+                exit()
+    except Exception:
+        exit_from_exception()
+
+
+TerminalColourInstance = textcodes.TerminalColours()
+TerminalFormattingInstance = textcodes.TerminalFormatting()
+red_warning_text = TerminalColourInstance.get_colour_code("red")
+red_warning_text += TerminalFormattingInstance.get_formatting_code("bold")
+red_warning_text += TerminalFormattingInstance.get_formatting_code("blink")
+red_warning_text += "WARNING!"
+red_warning_text += TerminalFormattingInstance.get_formatting_code("end")
+
+
+def get_current_user():
+    user = pwd.getpwuid(os.getuid())[0]
+    return user
+
+def get_current_hostname():
+    hostname = platform.node()
+    if hostname.endswith(".local"):
+        hostname = hostname.split(".local")[0]  # We remove it here
+    return hostname
+
+
+CURRENT_USER = get_current_user()  # The username of the current user
+CURRENT_HOSTNAME =  get_current_hostname()  # The hostname of the current computer
 NEWLINE = "\n"  # Constant for the newline character (\n)
-
-CURRENT_USER = pwd.getpwuid(os.getuid())[0]  # The username of the current user
-CURRENT_HOSTNAME = platform.node()  # The hostname of the current computer
-
-if ".local" in CURRENT_HOSTNAME:  # Some OSes append .local to the hostname
-    CURRENT_HOSTNAME = CURRENT_HOSTNAME.split(".local")[0]  # We remove it here
 
 
 def exit_from_exception():
@@ -51,33 +63,31 @@ def exit_from_exception():
     exit()
 
 
-def exit_command(options, arguments):
-    """ Exits the shell """
-    if arguments == []:  # If the arguments dictionary is blank
-        print("Exiting...")  # Tells the user that the program is closing
-        sys.exit()  # Exits the program
-    else:  # Otherwise, do the following
-        # Tell the user that they were ignored
-        print("Arguments", arguments, "were ignored!")
-        print("Exiting...")  # Tells the user that the program is closing
-        sys.exit()  # Exits the program
+def generate_welcome_message():
+    generated_message = ""
+    generated_message += "\nWelcome to Project Shell!"
+    generated_message += "\nCurrent time:\t"+str(datetime.datetime.now())
+    generated_message += "\nCurrent user:\t"+CURRENT_USER
+    generated_message += "\nCurrent host:\t"+CURRENT_HOSTNAME
+    generated_message += "\nCurrent directory:\t"+os.getcwd()
+    return generated_message
 
 
-def clear_command(options, arguments):
-    """ Clears the shell """
-    if arguments == []:  # If no arguments were provided
-        print(chr(27) + "[2J")  # Clears the shell and returns to the prompt
-    else:  # Otherwise
-        print(chr(27) + "[2J")  # Clears the shell
-        # Tells the user that they were ignored
-        print("Arguments", arguments, "were ignored!")
+def generate_root_warning(executing_command=True, command_name=None):
+    generated_message = ""
+    generated_message += "\n"+red_warning_text+" You are running Project Shell as root.\n"
+    if not executing_command:
+        generated_message += "Please exercise extra caution when issuing commands.\n"
+    else:
+        generated_message += "You entered '"+command_name, "'. Confirm it is correct"
+    return generated_message
 
 # The following dictionary has the list of the commands, and the functions that
 # are called when the command is searched for in the dictionary
 
 COMMAND_DICT = {
-    'exit': exit_command,
-    'clear': clear_command,
+    'exit': exittheshell.run_command,
+    'clear': cleartheshell.run_command,
     'ls': ls.run_command,
     'cd': cd.run_command,
     'mkdir': mkdir.run_command,
@@ -85,40 +95,31 @@ COMMAND_DICT = {
     'cp': cp.run_command,
     'rm': rm.run_command,
     'pwd': printworkingdir.run_command,
+    'man': man.run_command,
 }
 
-SHORT_OPTIONS_DICT = {
-    'cd': '',
-    'cp': 'v ::',
-    'ls': ':',
-    'mkdir': 'v :',
-    'rm': 'v :',
-    'rmdir': ':',
-    'exit': '',
-    'clear': '',
-    'pwd': '',
+# 'command name': ['short options', [long, options]]
+OPTIONS_DICT = {
+    'cd': ['', []],
+    'cp': ['v ::', []],
+    'ls': [':', []],
+    'mkdir': ['v :', []],
+    'rm': ['v :', []],
+    'rmdir': [':', []],
+    'exit': ['', []],
+    'clear': ['', []],
+    'pwd': ['', []],
+    'man': [': h', []],
 }
 
-LONG_OPTIONS_DICT = {
-    'cd': [],
-    'cp': [],
-    'ls': [],
-    'mkdir': [],
-    'rm': [],
-    'rmdir': [],
-    'exit': [],
-    'clear': [],
-    'pwd': [],
-}
 
-print("Welcome to Project Shell!")  # Welcome statement
-print("Current time:\t"+str(datetime.datetime.now()))  # Unformatted time
-print("Current user:\t"+CURRENT_USER)  # Current username
-print("Current host:\t"+CURRENT_HOSTNAME)  # Current computer hostname
-print("Current directory:\t"+os.getcwd())  # Current working directory
+print(generate_welcome_message())
+
 if CURRENT_USER == "root":
-    print("\nWARNING! You are running Project Shell as root.")
-    print("Please exercise extra caution when issuing commands.\n")
+    print(generate_root_warning(executing_command=False))
+
+return_code = 127
+
 while 1:  # Main loop
     CURRENT_DIRECTORY = os.getcwd()
     in_home = bool(str(os.getcwd()) == str(os.path.expanduser('~')))
@@ -153,13 +154,17 @@ while 1:  # Main loop
         except GenericException as new_e:
             new_e.print_error()
             continue
+    if JUST_COMMAND == '$?':
+        print(return_code)
+        continue
     try:
         try:
-            shrt = SHORT_OPTIONS_DICT[JUST_COMMAND]
-            lng = LONG_OPTIONS_DICT[JUST_COMMAND]
+            short_options = OPTIONS_DICT[JUST_COMMAND][0]
+            long_options = OPTIONS_DICT[JUST_COMMAND][1]
 
-            options, arguments = getopt.getopt(everything_but_command, shortopts=shrt,
-                                               longopts=lng)
+            options, arguments = getopt.getopt(everything_but_command,
+                                               shortopts=short_options,
+                                               longopts=long_options)
         except getopt.GetoptError as error:
             print(error)
             continue
@@ -172,7 +177,7 @@ while 1:  # Main loop
     for command in COMMAND_DICT:  # For each command in the dictionary
         if command == JUST_COMMAND:  # If the command is equal to the input
             func = COMMAND_DICT[command]
-            func(options, arguments)
+            return_code = func(options, arguments)
             RUN_THIS_LOOP = True  # Yes, we have executed a command this loop
     if not RUN_THIS_LOOP:  # If a command was not executed this loop
         if JUST_COMMAND == "":  # If the user didn't give a command
