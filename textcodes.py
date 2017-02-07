@@ -21,11 +21,6 @@ class TerminalColours(object):
         """ Fetches the colour code for the colour name passed """
         return getattr(self, "_"+colour_name+"_colour")
 
-    def override_colour_code(self, colour_name, new_value):
-        """ Overrides the colour code for the colour name passed """
-        setattr(self, "_"+colour_name+"_colour", new_value)
-        return
-
 
 class TerminalFormatting(object):
     """ Class containing the formatting codes for the terminal """
@@ -42,11 +37,3 @@ class TerminalFormatting(object):
             return getattr(self, "_end_of_colours")
         else:
             return getattr(self, "_"+formatting_code_name+"_formatting")
-
-    def override_formatting_code(self, formatting_code_name, new_value):
-        """ Overrides the formatting code for the colour name passed """
-        if formatting_code_name == "end":
-            return setattr(self, "_end_of_colours", new_value)
-        else:
-            setattr(self, "_"+formatting_code_name+"_formatting", new_value)
-        return
