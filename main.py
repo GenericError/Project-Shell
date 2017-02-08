@@ -136,7 +136,10 @@ while 1:  # Main loop
         PRECEDING_TEXT += " /"
     else:
         PRECEDING_TEXT += " "+str(CURRENT_DIRECTORY).split("/")[-1]
-    PRECEDING_TEXT += "$ "  # Append a dollar sign and a space
+    if CURRENT_USER != "root":
+        PRECEDING_TEXT += " $ "  # Append a dollar sign and a space
+    else:
+        PRECEDING_TEXT += " # "  # Append a hash sign and a space
     try:
         COMMAND_INPUT = str(input(PRECEDING_TEXT))  # Get the input of the user
         COMMAND_INPUT = COMMAND_INPUT.strip()
