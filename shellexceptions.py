@@ -50,7 +50,7 @@ class GenericException(CustomBaseException):
     """ Raise in the case of a generic exception """
     def __init__(self):
         super().__init__()
-        self.error_message = "Sorry, an error occured."
+        self.error_message = "Sorry, an error occurred."
 
 
 class UnsupportedOperationException(CustomBaseException):
@@ -131,10 +131,16 @@ class ImportException(CustomBaseException):
         super().__init__()
         self.error_message = "One or more modules could not be imported"
 
-   
+
 class UnsupportedPlatformException(CustomBaseException):
     """ Raise if the platform being used is unsupported """
     def __init__(self):
         super().__init__()
         self.error_message = "The platform you are using is unsupported."
 
+
+class CommandNotFoundException(CustomBaseException):
+    """ Raise if the command could not be found """
+    def __init__(self, command_name=""):
+        super().__init__()
+        self.error_message = construct_error_message(supplied_information=command_name, error_string="The command $VAR$ could not be found.", default_error_string="The command could not be found.")

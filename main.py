@@ -8,7 +8,7 @@ Run this script with 'python3 main.py' to launch Project Shell.
 This command can not be called within Project Shell."""
 
 try:
-    from shellexceptions import GenericException, ImportException
+    from shellexceptions import GenericException, ImportException, CommandNotFoundException
     import os, pwd, datetime, platform, getopt, textcodes
     import ls, cd, mkdir, rmdir, cp, rm, printworkingdir
     import exittheshell, cleartheshell
@@ -170,6 +170,14 @@ while 1:  # Main loop
             continue
     except Exception as e:
         try:
+            try:
+                command_ref = COMMAND_DICT[JUST_COMMAND]
+            except:
+                try:
+                    raise CommandNotFoundException(JUST_COMMAND)
+                except CommandNotFoundException as new_e:
+                    new_e.print_error()
+                    continue
             raise GenericException
         except GenericException as new_e:
             new_e.print_error()
