@@ -16,3 +16,5 @@ env: COLUMNS=80
 script: python3 project-shell-testing.py -v
 git:
   depth: 3
+after_success:
+  - coveralls
