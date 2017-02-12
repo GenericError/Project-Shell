@@ -1,8 +1,6 @@
 # Project-Shell
 ## A Python Bash Replacement
 
-[![Coverage Status](https://coveralls.io/repos/github/GenericError/Project-Shell/badge.svg?branch=master)](https://coveralls.io/github/GenericError/Project-Shell?branch=master)
-
 [![Build Status](https://travis-ci.org/GenericError/Project-Shell.svg?branch=master)](https://travis-ci.org/GenericError/Project-Shell)
 
 ### What is Project Shell?
