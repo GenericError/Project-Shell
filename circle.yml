@@ -1,6 +1,6 @@
 machine:
    python:
-     version: pypy-3.5.2
+     version: pypy-3.5.1
 
 test:
   override:
