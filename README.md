@@ -1,7 +1,7 @@
 # Project-Shell
 ## A Python Bash Replacement
 
-[![Build Status](https://travis-ci.org/GenericError/Project-Shell.svg?branch=master)](https://travis-ci.org/GenericError/Project-Shell)
+[![Build Status](https://travis-ci.org/GenericError/Project-Shell.svg?branch=master)](https://travis-ci.org/GenericError/Project-Shell) [![Ebert](https://ebertapp.io/github/GenericError/Project-Shell.svg)](https://ebertapp.io/github/GenericError/Project-Shell)
 
 ### What is Project Shell?
 Project Shell is a purely Python bash replacement for Python 3.3+ designed for everyday use. Currently you need to run it from the command line, but we will be changing this hopefully in the near future.
