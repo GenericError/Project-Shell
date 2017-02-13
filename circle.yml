@@ -1,6 +1,6 @@
 dependencies:
    pre:
-     - version: pypy-3.5.0
+     - version: pypy-3.5.2
 
 test:
   override:
