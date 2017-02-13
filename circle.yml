@@ -1,3 +1,7 @@
+dependencies:
+   pre:
+     - pip install tox
+
 test:
   override:
-    - python3 project-shell-testing.py
+    - tox
