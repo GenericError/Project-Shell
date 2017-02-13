@@ -1,3 +1,7 @@
+dependencies:
+   pre:
+     version: pypy-3.5.2
+     
 test:
   override:
     - python3 project-shell-testing.py
