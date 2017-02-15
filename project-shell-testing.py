@@ -1,4 +1,4 @@
-""" The testing module for all of Project Shell """
+""" The testing module for Project Shell """
 
 try:
     import unittest
