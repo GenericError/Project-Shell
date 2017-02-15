@@ -2,7 +2,8 @@
 ## A Python Bash Replacement
 
 
-[![Build Status](https://travis-ci.org/GenericError/Project-Shell.svg?branch=master)](https://travis-ci.org/GenericError/Project-Shell) [![Ebert](https://ebertapp.io/github/GenericError/Project-Shell.svg)](https://ebertapp.io/github/GenericError/Project-Shell) ![CircleCI](https://circleci.com/gh/GenericError/Project-Shell.svg?&style=shield)
+[![Build Status](https://travis-ci.org/GenericError/Project-Shell.svg?branch=master)](https://travis-ci.org/GenericError/Project-Shell) [![Ebert](https://ebertapp.io/github/GenericError/Project-Shell.svg)](https://ebertapp.io/github/GenericError/Project-Shell) ![CircleCI](https://circleci.com/gh/GenericError/Project-Shell.svg?&style=shield) [![codecov](https://codecov.io/gh/GenericError/Project-Shell/branch/master/graph/badge.svg)](https://codecov.io/gh/GenericError/Project-Shell)
+
 
 
 
