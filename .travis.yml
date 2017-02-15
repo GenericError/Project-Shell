@@ -16,6 +16,6 @@ env: COLUMNS=80
 script:
   - coverage run project-shell-testing.py
 git:
-  depth: 3
+  depth: 10
 after_success:
   - codecov
