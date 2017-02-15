@@ -1,5 +1,6 @@
 import shutil
 import textwrap
+import importlib
 
 MAN_DOC = """man - display manual documentation
 Usage: man [command]
@@ -39,8 +40,7 @@ def run_command(options, arguments):
     except:
         pass  # It just means we didn't find an alias, that's OK
     try:
-        # TODO: Find a way to do this without using __import__()
-        the_import = __import__(the_command, globals(), locals(), [], 0)
+        the_import = importlib.import_module(the_command)
     except:
         print("Sorry, that command could not be found")
         return_code = 2
