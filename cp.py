@@ -37,7 +37,7 @@ def run_command(options, arguments):
         elif os.path.isfile(source):  # If the source is a file
             if not os.path.isdir(destination):
                 if os.path.exists(destination):  # If the destination exists
-                    override = input("Override", destination, "with", source, "? [y/N] ")
+                    override = input("Override "+destination+" with "+source+" ? [y/N] ")
                     if override.lower().startswith("y"):
                         try:  # Try to do the following
                             # Copy the source to the destination with metadata
@@ -62,8 +62,7 @@ def run_command(options, arguments):
             else:
                 raise DestinationArgumentIsADirectoryException
         else:  # In case the user tried to perform another operation
-            # TODO: Implement the appropriate actions here
-            raise UnsupportedOperationException("cp")
+            print("It is a bug if the code gets here!")
         return return_code
     except UnsupportedOperationException as e:
         e.print_error()
