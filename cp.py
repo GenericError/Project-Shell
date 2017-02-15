@@ -37,8 +37,17 @@ def run_command(options, arguments):
         elif os.path.isfile(source):  # If the source is a file
             if not os.path.isdir(destination):
                 if os.path.exists(destination):  # If the destination exists
-                    # TODO: Implement the appropriate actions here
-                    raise UnsupportedOperationException("cp")
+                    override = input("Override", destination, "with", source, "? [y/N] ")
+                    if override.lower().startswith("y"):
+                        try:  # Try to do the following
+                            # Copy the source to the destination with metadata
+                            shutil.copy2(source, destination)
+                            if verbose:
+                                print(source, "->", destination)
+                        except OSError:  # In case an error occured
+                            raise GenericException
+                    else:
+                        print(destination, "was not overwritten")
                 # If the destination does not exist
                 elif not os.path.exists(destination):
                     try:  # Try to do the following
