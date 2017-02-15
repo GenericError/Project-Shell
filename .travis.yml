@@ -1,7 +1,7 @@
 sudo: required
 os:
   - linux
-install: true
+install: "pip install codecov"
 language: python
 python:
   - "3.3"
@@ -13,6 +13,9 @@ python:
   - "3.7-dev"
   - "nightly"
 env: COLUMNS=80
-script: python3 project-shell-testing.py -v
+script:
+  - coverage run project-shell-testing.py
 git:
   depth: 3
+after_success:
+  - codecov

@@ -22,6 +22,9 @@ Unix, macOS and similar operating systems are the only ones supported at this ti
 ### I've found a bug. What do I do?
 Open an issue in the issue tracker and be sure to include as many details as you can. That way, we can easily fix the issue.
 
+### I want to add a new feature. What do I do?
+Open an issue and suggest the feature. It will be added as a project.
+
 ### What license is Project Shell released under?
 Because Project Shell is open source software, we have released it under the MIT license. In plain english, this means that you can do whatever you want with the software, as long as you don't hold us liable and keep a copy of the license in any distribution of the software and for any derivatives. Remember, none of use are legal advisers so don't take our word - read the LICENSE file and talk to an attorney if you're really worried
 
