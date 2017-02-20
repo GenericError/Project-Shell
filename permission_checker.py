@@ -7,3 +7,6 @@ def check_existence(path):
 
 def check_read_permission(path):
     return os.access(path, os.R_OK)
+
+def check_write_permission(path):
+    return os.access(path, os.W_OK)
