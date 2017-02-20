@@ -10,3 +10,6 @@ def check_read_permission(path):
 
 def check_write_permission(path):
     return os.access(path, os.W_OK)
+
+def check_execute_permission(path):
+    return os.access(path, os.X_OK)
