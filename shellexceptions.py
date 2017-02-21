@@ -151,10 +151,3 @@ class SourceDoesNotExistException(CustomBaseException):
     def __init__(self, command_name=""):
         super().__init__()
         self.error_message = construct_error_message(supplied_information=command_name, error_string="The source argument $VAR$ does not exist.", default_error_string="The source argument does not exist.")
-
-
-class DestinationDoesNotExistException(CustomBaseException):
-    """ Raise if the destination argument does not exist on the system """
-    def __init__(self, command_name=""):
-        super().__init__()
-        self.error_message = construct_error_message(supplied_information=command_name, error_string="The destination argument $VAR$ does not exist.", default_error_string="The destination argument does not exist.")

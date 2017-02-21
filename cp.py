@@ -36,17 +36,9 @@ def run_command(options, arguments):
             pass
         else:
             raise SourceDoesNotExistException
-        if check_existence(destination):
-            pass
-        else:
-            raise DestinationDoesNotExistException
     except SourceDoesNotExistException as e:
         e.print_error()
         return_code = 7
-        return return_code
-    except DestinationDoesNotExistException as e:
-        e.print_error()
-        return_code = 8
         return return_code
 
     try:
