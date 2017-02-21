@@ -3,6 +3,7 @@
 import shutil  # Import this for copyying files with metadata
 import os  # Import this for system things
 from shellexceptions import *
+from permission_awareness import check_existence
 
 MAN_DOC = """cp - copy files
 Usage: cp [-v] source_file destination_file
@@ -29,6 +30,25 @@ def run_command(options, arguments):
     for option in options:
         if option[0] in "-v":
             verbose = True
+
+    try:
+        if check_existence(source):
+            pass
+        else:
+            raise SourceDoesNotExistException
+        if check_existence(destination):
+            pass
+        else:
+            raise DestinationDoesNotExistException
+    except SourceDoesNotExistException as e:
+        e.print_error()
+        return_code = 7
+        return return_code
+    except DestinationDoesNotExistException as e:
+        e.print_error()
+        return_code = 8
+        return return_code
+
     try:
         if source == destination:  # If the source and the destination are the same
             raise SourceDestinationAreEqualException
