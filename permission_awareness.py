@@ -1,6 +1,6 @@
 # Created in response to issue #32
 
-""" Checks for permissions for a path/file """
+""" Implements permission based functions for a path/file """
 
 import os
 
@@ -19,3 +19,17 @@ def check_write_permission(path):
 def check_execute_permission(path):
     """ Returns True if the user/group can execute the path """
     return os.access(path, os.X_OK)
+
+def permission_aware_open(path, mode):
+    """ Returns a file object, checking for appropriate permissions before doing so """
+    ok = False
+    if check_existence(path):
+        if mode == "r":
+            if check_read_permission(path):
+                ok = True
+        elif mode == "w":
+            if check_read_permission(path):
+                if check_write_permission(path):
+                    ok = True
+    if ok:
+        return open(path, mode=mode)
