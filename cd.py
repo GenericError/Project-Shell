@@ -3,6 +3,7 @@ import os  # Importing this module to do directory things
 import argparse
 import getopt
 from shellexceptions import *
+from permission_awareness import check_existence
 
 MAN_DOC = """cd - change the current working directory
 Usage: cd [directory]
@@ -31,6 +32,7 @@ def run_command(options, arguments):
     except NotADirectoryException as e:
         e.print_error()
         return_code = 2
-    if os.path.isdir(directory_to_go):  # If it is a valid directory
-        os.chdir(directory_to_go)  # Change the current directory
+    if check_existence(directory_to_go):
+        if os.path.isdir(directory_to_go):  # If it is a valid directory
+            os.chdir(directory_to_go)  # Change the current directory
     return return_code  # Go back to the prompt
